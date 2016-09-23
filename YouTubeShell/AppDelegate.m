@@ -15,7 +15,6 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
  
@@ -23,7 +22,6 @@
     [self.window makeKeyAndVisible];
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    
     self.rootVC = [[HomeViewController alloc] initWithCollectionViewLayout:layout];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController: self.rootVC];
     
