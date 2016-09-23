@@ -11,6 +11,10 @@
 @interface VideoCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) UIImageView *imageView;
+@property (strong, nonatomic) UIImageView *userImageView;
 @property (strong, nonatomic) UIView *separator;
+@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UITextView *descriptionTextView;
+
 
 @end

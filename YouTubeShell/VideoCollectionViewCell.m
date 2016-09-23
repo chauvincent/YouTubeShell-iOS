@@ -11,17 +11,51 @@
 
 @implementation VideoCollectionViewCell
 
+- (UILabel *)titleLabel
+{
+    if (!_titleLabel)
+    {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.backgroundColor = [UIColor blackColor];
+        _titleLabel.translatesAutoresizingMaskIntoConstraints = false;
+    }
+    
+    return _titleLabel;
+}
+
+- (UITextView *)descriptionTextView
+{
+    if (!_descriptionTextView)
+    {
+        _descriptionTextView = [[UITextView alloc] init];
+        _descriptionTextView.backgroundColor = [UIColor blackColor];
+        _descriptionTextView.translatesAutoresizingMaskIntoConstraints = false;
+    }
+    
+    return _descriptionTextView;
+}
+
 - (UIImageView *)imageView
 {
     if (!_imageView)
     {
         _imageView = [[UIImageView alloc] init];
-        _imageView.translatesAutoresizingMaskIntoConstraints = false;
         _imageView.backgroundColor = [UIColor blueColor];
-
-        
     }
+    
     return _imageView;
+}
+
+- (UIImageView *)userImageView
+{
+
+    if (!_userImageView)
+    {
+        _userImageView = [[UIImageView alloc] init];
+        _userImageView.backgroundColor = [UIColor blackColor];
+    }
+    
+    return _userImageView;
 }
 
 - (UIView *)separator
@@ -29,10 +63,8 @@
     if (!_separator)
     {
         _separator = [[UIView alloc] init];
-        _separator.translatesAutoresizingMaskIntoConstraints = false;
         _separator.backgroundColor = [UIColor blackColor];
     }
-    
     return _separator;
 }
 
@@ -52,16 +84,87 @@
 {
     [self addSubview:self.imageView];
     [self addSubview:self.separator];
+    [self addSubview:self.userImageView];
+    [self addSubview:self.titleLabel];
+    [self addSubview:self.descriptionTextView];
     
     self.imageView.frame = CGRectMake(0, 0, 100, 100);
-    self.backgroundColor = [UIColor greenColor];
-
+    self.backgroundColor = [UIColor whiteColor];
     
     [self addVisualConstraintWithFormat:@"H:|-16-[v0]-16-|" andView:@[self.imageView]];
-    [self addVisualConstraintWithFormat:@"V:|-16-[v0]-16-|" andView:@[self.imageView]];
+    [self addVisualConstraintWithFormat:@"H:|-16-[v0(44)]" andView:@[self.userImageView]];
+
+    [self addVisualConstraintWithFormat:@"V:|-16-[v0]-12-[v1(44)]-16-[v2]|" andView:@[self.imageView, self.userImageView, self.separator]];
+    
     [self addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.separator]];
     [self addVisualConstraintWithFormat:@"V:[v0(1)]|" andView:@[self.separator]];
 
+    // Title Label Constraints
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.titleLabel
+                                                     attribute:NSLayoutAttributeTop
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self.imageView
+                                                     attribute:NSLayoutAttributeBottom
+                                                    multiplier:1
+                                                      constant:12]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.titleLabel
+                                                     attribute:NSLayoutAttributeLeft
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self.userImageView
+                                                     attribute:NSLayoutAttributeRight
+                                                    multiplier:1
+                                                      constant:8]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.titleLabel
+                                                     attribute:NSLayoutAttributeRight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self.imageView
+                                                     attribute:NSLayoutAttributeRight
+                                                    multiplier:1
+                                                      constant:0]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.titleLabel
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self.titleLabel
+                                                     attribute:NSLayoutAttributeHeight
+                                                    multiplier:0
+                                                      constant:20]];
+    
+    // Description TextView Constraints
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.descriptionTextView
+                                                     attribute:NSLayoutAttributeTop
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self.titleLabel
+                                                     attribute:NSLayoutAttributeBottom
+                                                    multiplier:1
+                                                      constant:5]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.descriptionTextView
+                                                     attribute:NSLayoutAttributeLeft
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self.userImageView
+                                                     attribute:NSLayoutAttributeRight
+                                                    multiplier:1
+                                                      constant:8]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.descriptionTextView
+                                                     attribute:NSLayoutAttributeRight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self.imageView
+                                                     attribute:NSLayoutAttributeRight
+                                                    multiplier:1
+                                                      constant:0]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.descriptionTextView
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self.descriptionTextView
+                                                     attribute:NSLayoutAttributeHeight
+                                                    multiplier:0
+                                                      constant:20]];
+    
 }
 
 
