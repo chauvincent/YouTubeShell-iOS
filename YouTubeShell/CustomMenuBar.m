@@ -23,6 +23,10 @@
         _collectionView.delegate = self;
         
         [_collectionView registerClass:[MenuCollectionViewCell class] forCellWithReuseIdentifier:@"CellMenu"];
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:1];
+        [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+        [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
    
     }
     return _collectionView;
@@ -37,9 +41,14 @@
     {
         self.backgroundColor = [UIColor redColor];
         
+        self.collectionView.delegate = self;
+        self.collectionView.dataSource = self;
+        
         [self addSubview:self.collectionView];
         [self addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.collectionView]];
         [self addVisualConstraintWithFormat:@"V:|[v0]|" andView:@[self.collectionView]];
+
+
     }
     
     return self;
@@ -66,7 +75,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -78,6 +87,8 @@
 {
     MenuCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CellMenu" forIndexPath:indexPath];
     [cell configureCell:indexPath];
+    
+    
     return cell;
 }
 

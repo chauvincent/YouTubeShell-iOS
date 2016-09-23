@@ -61,6 +61,8 @@
     // Register Cell
     [self.collectionView registerClass:[VideoCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
     self.collectionView.backgroundColor = [UIColor whiteColor];
+    
+
 }
 
 - (void)setupMenu
@@ -68,6 +70,14 @@
     [self.view addSubview:self.menu];
     [self.view addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.menu]];
     [self.view addVisualConstraintWithFormat:@"V:|[v0(50)]" andView:@[self.menu]];
+    
+    NSIndexPath *selection = [NSIndexPath indexPathForItem:0
+                                                 inSection:0];
+    
+    [self.menu.collectionView selectItemAtIndexPath:selection
+                                      animated:false
+                                scrollPosition:UICollectionViewScrollPositionNone];
+    [self.menu.collectionView reloadData];
 }
 
 #pragma mark - <UICollectionViewDataSource>
@@ -80,7 +90,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     VideoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-
+    
     return cell;
 }
 
