@@ -9,7 +9,16 @@
 #import "CustomMenuBar.h"
 #import "MenuCollectionViewCell.h"
 
-@implementation CustomMenuBar 
+@implementation CustomMenuBar
+
+- (NSArray *)imageNames
+{
+    if (!_imageNames)
+    {
+        self.imageNames = @[@"home_btn",@"trending_fire",@"subscriptions",@"profile_btn"];
+    }
+    return _imageNames;
+}
 
 - (UICollectionView*)collectionView
 {
@@ -22,12 +31,6 @@
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         
-        [_collectionView registerClass:[MenuCollectionViewCell class] forCellWithReuseIdentifier:@"CellMenu"];
-        
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:1];
-        [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
-        [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
-   
     }
     return _collectionView;
 }
@@ -40,14 +43,19 @@
     if (self)
     {
         self.backgroundColor = [UIColor redColor];
-        
         self.collectionView.delegate = self;
         self.collectionView.dataSource = self;
         
         [self addSubview:self.collectionView];
+        [_collectionView registerClass:[MenuCollectionViewCell class] forCellWithReuseIdentifier:@"CellMenu"];
+        
+
         [self addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.collectionView]];
         [self addVisualConstraintWithFormat:@"V:|[v0]|" andView:@[self.collectionView]];
-
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+        [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+//        [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
 
     }
     
@@ -86,8 +94,11 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     MenuCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CellMenu" forIndexPath:indexPath];
-    [cell configureCell:indexPath];
+    NSString *imageName = self.imageNames[indexPath.row];
+    UIImage *image = [UIImage imageNamed:imageName];
+    cell.imageView.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     
+    [cell.imageView setTintColor:[UIColor colorWithRed:139/255.0 green:0 blue:0 alpha:0.8]];
     
     return cell;
 }

@@ -11,14 +11,6 @@
 
 @implementation MenuCollectionViewCell
 
--(NSArray *)imageNames
-{
-    if (!_imageNames)
-    {
-        self.imageNames = @[@"home_btn",@"trending_fire",@"subscriptions",@"profile_btn"];
-    }
-    return _imageNames;
-}
 
 -(UIImageView*)imageView
 {
@@ -80,14 +72,6 @@
     
 }
 
-- (void)configureCell:(NSIndexPath*)indexPath
-{
-    NSString *imageName = self.imageNames[indexPath.row];
-    UIImage *image = [UIImage imageNamed:imageName];
-    self.imageView.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];;
-    
-    [self.imageView setTintColor:[UIColor colorWithRed:139/255.0 green:0 blue:0 alpha:0.8]];
-}
 
 -(void)setSelected:(BOOL)selected
 {
@@ -100,6 +84,7 @@
         self.imageView.tintColor = [UIColor colorWithRed:139/255.0 green:0 blue:0 alpha:0.8];
     }
 }
+
 
 
 @end

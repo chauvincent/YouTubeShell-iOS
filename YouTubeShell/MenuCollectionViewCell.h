@@ -11,9 +11,5 @@
 @interface MenuCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) UIImageView *imageView;
-@property (strong, nonatomic) NSArray *imageNames;
-
-
-- (void)configureCell:(NSIndexPath *)indexPath;
 
 @end

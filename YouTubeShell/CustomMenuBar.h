@@ -12,5 +12,5 @@
 @interface CustomMenuBar : UIView <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
-
+@property (strong, nonatomic) NSArray *imageNames;
 @end
