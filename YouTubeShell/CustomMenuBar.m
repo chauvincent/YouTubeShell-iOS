@@ -10,7 +10,7 @@
 #import "MenuCollectionViewCell.h"
 
 @implementation CustomMenuBar
-
+BOOL first = false;
 - (NSArray *)imageNames
 {
     if (!_imageNames)
@@ -26,11 +26,12 @@
     if (!_collectionView)
     {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor redColor];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
-        
+        first = true;
     }
     return _collectionView;
 }
@@ -53,9 +54,8 @@
         [self addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.collectionView]];
         [self addVisualConstraintWithFormat:@"V:|[v0]|" andView:@[self.collectionView]];
         
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
-        [self.collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
-//        [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
+        NSIndexPath *indexPathForFirstRow = [NSIndexPath indexPathForRow:0 inSection:0];
+
 
     }
     
@@ -83,7 +83,10 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
+//    MenuCollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+//    cell.imageView.tintColor = [UIColor whiteColor];
+//
+    
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -97,8 +100,15 @@
     NSString *imageName = self.imageNames[indexPath.row];
     UIImage *image = [UIImage imageNamed:imageName];
     cell.imageView.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    
     [cell.imageView setTintColor:[UIColor colorWithRed:139/255.0 green:0 blue:0 alpha:0.8]];
+    
+    if (first) {
+        cell.selected = true;
+        [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
+        [cell.imageView setTintColor:[UIColor whiteColor]];
+        first = false;
+    }
     
     return cell;
 }
