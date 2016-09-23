@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "UIView+Constraints.h"
 
-
 @interface VideoCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) UIImageView *imageView;

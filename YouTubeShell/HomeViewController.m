@@ -8,18 +8,30 @@
 
 #import "HomeViewController.h"
 #import "VideoCollectionViewCell.h"
+#import "CustomMenuBar.h"
 
 @interface HomeViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (strong, nonatomic) CustomMenuBar *menu;
 
 @end
 
 @implementation HomeViewController
 
+- (CustomMenuBar*)menu
+{
+    if (!_menu)
+    {
+        _menu = [[CustomMenuBar alloc] initWithFrame:self.view.bounds];
+    }
+    return _menu;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self setupView];
+    [self setupMenu];
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,6 +61,13 @@
     self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
+- (void)setupMenu
+{
+    [self.view addSubview:self.menu];
+    [self.view addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.menu]];
+    [self.view addVisualConstraintWithFormat:@"V:|[v0(50)]" andView:@[self.menu]];
+}
+
 #pragma mark - <UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -60,7 +79,6 @@
 {
     VideoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
 
-    
     return cell;
 }
 
