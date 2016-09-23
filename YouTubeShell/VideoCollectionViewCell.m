@@ -16,7 +16,7 @@
     {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.translatesAutoresizingMaskIntoConstraints = false;
-        _titleLabel.text = @"Nyan Cat Flies Across The Moon";
+        _titleLabel.text = @" Nyan Cat Flies Across The Moon";
     }
     
     return _titleLabel;
@@ -27,8 +27,9 @@
     if (!_descriptionTextView)
     {
         _descriptionTextView = [[UITextView alloc] init];
-        _descriptionTextView.backgroundColor = [UIColor blackColor];
         _descriptionTextView.translatesAutoresizingMaskIntoConstraints = false;
+        _descriptionTextView.textColor = [UIColor grayColor];
+        _descriptionTextView.text = @"NyanCat Fans - 9,000,000,000 views - 23 mins ago";
     }
     
     return _descriptionTextView;
@@ -67,7 +68,7 @@
     if (!_separator)
     {
         _separator = [[UIView alloc] init];
-        _separator.backgroundColor = [UIColor blackColor];
+        _separator.backgroundColor = [UIColor lightGrayColor];
     }
     return _separator;
 }
@@ -143,7 +144,7 @@
                                                         toItem:self.titleLabel
                                                      attribute:NSLayoutAttributeBottom
                                                     multiplier:1
-                                                      constant:5]];
+                                                      constant:3]];
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.descriptionTextView
                                                      attribute:NSLayoutAttributeLeft
@@ -167,7 +168,7 @@
                                                         toItem:self.descriptionTextView
                                                      attribute:NSLayoutAttributeHeight
                                                     multiplier:0
-                                                      constant:20]];
+                                                      constant:30]];
 
    
 }

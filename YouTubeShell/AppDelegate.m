@@ -23,12 +23,23 @@
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     self.rootVC = [[HomeViewController alloc] initWithCollectionViewLayout:layout];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController: self.rootVC];
-    
+    self.nav =[[UINavigationController alloc] initWithRootViewController: self.rootVC];
+    self.window.rootViewController = self.nav;
+    [self setupNav];
     
     return YES;
 }
 
+- (void)setupNav
+{
+
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    [[UINavigationBar appearance] setBarStyle:UIBarStyleDefault];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor redColor]];
+    [[UINavigationBar appearance] setTranslucent:NO];
+    
+    
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) HomeViewController *rootVC;
+@property (strong, nonatomic) UINavigationController *nav;
 
 @end
 

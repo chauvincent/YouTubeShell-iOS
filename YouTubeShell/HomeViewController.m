@@ -30,11 +30,23 @@
 #pragma mark - View Setup
 - (void)setupView
 {
-    self.navigationItem.title = @"Home";
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    // Navigation Set up
+    UILabel *navLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 30, self.view.frame.size.height)];
+    navLabel.text = @"Home";
+    navLabel.textColor = [UIColor whiteColor];
+    
+    UIView *status = [[UIView alloc] init];
+    status.backgroundColor = [UIColor colorWithRed:139/255.0 green:0 blue:0 alpha:0.3];
+    UIWindow* window = [[UIApplication sharedApplication] keyWindow];
+    [window addSubview:status];
+    [window addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[status]];
+    [window addVisualConstraintWithFormat:@"V:|[v0(20)]" andView:@[status]];
+    
+    self.navigationItem.titleView = navLabel;
+    
     // Register Cell
     [self.collectionView registerClass:[VideoCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
-
+    self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
 #pragma mark - <UICollectionViewDataSource>
@@ -54,7 +66,12 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(self.view.frame.size.width, 250);
+    float inset = 32.0f;
+    float aspectRatio = (9.0 / 16.0);
+    float y = (self.view.frame.size.width - inset) * aspectRatio;
+    float offset = 68.0f;
+    
+    return CGSizeMake(self.view.frame.size.width, y + offset);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
