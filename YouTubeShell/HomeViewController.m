@@ -55,6 +55,8 @@
     [window addVisualConstraintWithFormat:@"V:|[v0(20)]" andView:@[status]];
     
     self.navigationItem.titleView = navLabel;
+    self.collectionView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0);
+    self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 0);
     
     // Register Cell
     [self.collectionView registerClass:[VideoCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];

@@ -55,7 +55,6 @@
     if (!_userImageView)
     {
         _userImageView = [[UIImageView alloc] init];
-        _userImageView.image = [UIImage imageNamed:@"vince"];
         _userImageView.layer.cornerRadius = 22.0;
         _userImageView.layer.masksToBounds = true;
     }
@@ -170,9 +169,7 @@
                                                     multiplier:0
                                                       constant:30]];
 
-   
 }
-
 
 
 

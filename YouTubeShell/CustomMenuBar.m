@@ -7,6 +7,7 @@
 //
 
 #import "CustomMenuBar.h"
+#import "MenuCollectionViewCell.h"
 
 @implementation CustomMenuBar 
 
@@ -21,7 +22,7 @@
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         
-        [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CellMenu"];
+        [_collectionView registerClass:[MenuCollectionViewCell class] forCellWithReuseIdentifier:@"CellMenu"];
    
     }
     return _collectionView;
@@ -47,6 +48,7 @@
 - (id)initWithCoder:(NSCoder*)aDecoder
 {
     self = [super initWithCoder:aDecoder];
+    
     if (self)
     {
        
@@ -74,8 +76,8 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CellMenu" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor whiteColor];
+    MenuCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CellMenu" forIndexPath:indexPath];
+    [cell configureCell:indexPath];
     return cell;
 }
 
