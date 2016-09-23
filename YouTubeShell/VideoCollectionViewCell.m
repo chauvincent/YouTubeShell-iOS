@@ -7,6 +7,7 @@
 //
 
 #import "VideoCollectionViewCell.h"
+#import "UIView+Constraints.h"
 
 @implementation VideoCollectionViewCell
 
@@ -56,26 +57,11 @@
     self.backgroundColor = [UIColor greenColor];
 
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-16-[v0]-16-|"
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:@{@"v0":self.imageView}]];
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-16-[v0]-16-|"
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:@{@"v0":self.imageView}]];
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[v0]|"
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:@{@"v0":self.separator}]];
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[v0(1)]|"
-                                                                 options:0
-                                                                 metrics:nil
-                                                                   views:@{@"v0":self.separator}]];
-    
+    [self addVisualConstraintWithFormat:@"H:|-16-[v0]-16-|" andView:@[self.imageView]];
+    [self addVisualConstraintWithFormat:@"V:|-16-[v0]-16-|" andView:@[self.imageView]];
+    [self addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.separator]];
+    [self addVisualConstraintWithFormat:@"V:[v0(1)]|" andView:@[self.separator]];
+
 }
 
 
