@@ -7,7 +7,6 @@
 //
 
 #import "VideoCollectionViewCell.h"
-#import "UIView+Constraints.h"
 
 @implementation VideoCollectionViewCell
 
@@ -16,8 +15,8 @@
     if (!_titleLabel)
     {
         _titleLabel = [[UILabel alloc] init];
-        _titleLabel.backgroundColor = [UIColor blackColor];
         _titleLabel.translatesAutoresizingMaskIntoConstraints = false;
+        _titleLabel.text = @"Nyan Cat Flies Across The Moon";
     }
     
     return _titleLabel;
@@ -41,6 +40,9 @@
     {
         _imageView = [[UIImageView alloc] init];
         _imageView.backgroundColor = [UIColor blueColor];
+        _imageView.image = [UIImage imageNamed:@"nyan-cat"];
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        _imageView.clipsToBounds = true;
     }
     
     return _imageView;
@@ -52,7 +54,9 @@
     if (!_userImageView)
     {
         _userImageView = [[UIImageView alloc] init];
-        _userImageView.backgroundColor = [UIColor blackColor];
+        _userImageView.image = [UIImage imageNamed:@"vince"];
+        _userImageView.layer.cornerRadius = 22.0;
+        _userImageView.layer.masksToBounds = true;
     }
     
     return _userImageView;
@@ -164,7 +168,8 @@
                                                      attribute:NSLayoutAttributeHeight
                                                     multiplier:0
                                                       constant:20]];
-    
+
+   
 }
 
 
