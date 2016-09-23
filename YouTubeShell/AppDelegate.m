@@ -20,11 +20,11 @@
  
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window makeKeyAndVisible];
-    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     self.rootVC = [[HomeViewController alloc] initWithCollectionViewLayout:layout];
     self.nav =[[UINavigationController alloc] initWithRootViewController: self.rootVC];
     self.window.rootViewController = self.nav;
+    
     [self setupNav];
     
     return YES;
@@ -32,7 +32,6 @@
 
 - (void)setupNav
 {
-
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     [[UINavigationBar appearance] setBarStyle:UIBarStyleDefault];
     [[UINavigationBar appearance] setBarTintColor:[UIColor redColor]];

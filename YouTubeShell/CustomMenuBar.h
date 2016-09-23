@@ -13,4 +13,5 @@
 
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) NSArray *imageNames;
+
 @end

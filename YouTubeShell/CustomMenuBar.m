@@ -10,7 +10,9 @@
 #import "MenuCollectionViewCell.h"
 
 @implementation CustomMenuBar
+
 BOOL first = false;
+
 - (NSArray *)imageNames
 {
     if (!_imageNames)
@@ -50,12 +52,8 @@ BOOL first = false;
         [self addSubview:self.collectionView];
         [_collectionView registerClass:[MenuCollectionViewCell class] forCellWithReuseIdentifier:@"CellMenu"];
         
-
         [self addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.collectionView]];
         [self addVisualConstraintWithFormat:@"V:|[v0]|" andView:@[self.collectionView]];
-        
-        NSIndexPath *indexPathForFirstRow = [NSIndexPath indexPathForRow:0 inSection:0];
-
 
     }
     
@@ -83,9 +81,7 @@ BOOL first = false;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//    MenuCollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-//    cell.imageView.tintColor = [UIColor whiteColor];
-//
+
     
 }
 
@@ -102,7 +98,8 @@ BOOL first = false;
     cell.imageView.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [cell.imageView setTintColor:[UIColor colorWithRed:139/255.0 green:0 blue:0 alpha:0.8]];
     
-    if (first) {
+    if (first)
+    {
         cell.selected = true;
         [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];

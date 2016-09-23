@@ -12,7 +12,7 @@
 @implementation MenuCollectionViewCell
 
 
--(UIImageView*)imageView
+- (UIImageView*)imageView
 {
     if (!_imageView)
     {
@@ -72,7 +72,6 @@
     
 }
 
-
 -(void)setSelected:(BOOL)selected
 {
     if (selected)
@@ -84,7 +83,5 @@
         self.imageView.tintColor = [UIColor colorWithRed:139/255.0 green:0 blue:0 alpha:0.8];
     }
 }
-
-
 
 @end
