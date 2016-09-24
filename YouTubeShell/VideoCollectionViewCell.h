@@ -20,9 +20,8 @@
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UITextView *descriptionTextView;
 
-// Model
-@property (strong, nonatomic) Video *video;
 
-- (void)configureCell;
+
+- (void)configureCell:(Video *)video;
 
 @end

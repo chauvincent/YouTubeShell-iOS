@@ -125,8 +125,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     VideoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    cell.video = self.videos[indexPath.row];
-    [cell configureCell];
+    [cell configureCell:self.videos[indexPath.row]];
     
     return cell;
 }
@@ -150,11 +149,11 @@
 
 - (void)loadFakeData
 {
-    Video *vid1 = [[Video alloc] initWithTitle:@"Nyan Cat Flies Over The Moon" withImageName:@"nyan-cat" andAuthor:@"Nyan Cat Fans" andViewCount:@"3,000,000"];
+    Video *vid1 = [[Video alloc] initWithTitle:@"The Nyan Cat Documentation" withImageName:@"nyan-cat" andAuthor:@"Nyan Cat Fans" andViewCount:@"3,000,000 views"];
     
-    Video *vid2 = [[Video alloc] initWithTitle:@"Dragon Ball Z: Vegeta" withImageName:@"vegeta" andAuthor:@"Dragon Ball Fan" andViewCount:@"9,000"];
+    Video *vid2 = [[Video alloc] initWithTitle:@"Dragon Ball Z: Vegeta" withImageName:@"vegeta" andAuthor:@"Dragon Ball Z Fans" andViewCount:@"9,000 views"];
     
-    Video *vid3 = [[Video alloc] initWithTitle:@"Nyan Cat Races With Other Cat" withImageName:@"nyan-cat-race" andAuthor:@"Nyan Cat Fans" andViewCount:@"8,000,000"];
+    Video *vid3 = [[Video alloc] initWithTitle:@"Nyan Cat Races With Other Cat" withImageName:@"nyan-cat-race" andAuthor:@"Nyan Cat Fans" andViewCount:@"8,000,000 views"];
     self.videos = [@[vid1, vid2, vid3] mutableCopy];
     
 }

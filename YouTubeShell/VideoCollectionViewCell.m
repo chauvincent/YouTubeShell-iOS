@@ -41,7 +41,7 @@
     {
         _imageView = [[UIImageView alloc] init];
         _imageView.backgroundColor = [UIColor blueColor];
-        _imageView.image = [UIImage imageNamed:@"nyan-cat"];
+      //  _imageView.image = [UIImage imageNamed:@"nyan-cat"];
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
         _imageView.clipsToBounds = true;
     }
@@ -172,13 +172,12 @@
 
 }
 
-- (void)configureCell
+- (void)configureCell:(Video *)video
 {
-//    _title = title;
-//    _author = author;
-//    _imageName = name;
-//    _viewCount = count;
 
+    self.imageView.image = [UIImage imageNamed:video.imageName];
+    self.titleLabel.text = video.title;
+    self.descriptionTextView.text = [NSString stringWithFormat:@"%@ - %@ - 23m ago", video.author, video.viewCount];
     
 }
 
