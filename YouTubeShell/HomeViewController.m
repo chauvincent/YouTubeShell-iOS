@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 #import "VideoCollectionViewCell.h"
+#import "FeedCollectionViewCell.h"
 #import "SlideMenuLauncher.h"
 #import "CustomMenuBar.h"
 #import "Video.h"
@@ -15,7 +16,7 @@
 @interface HomeViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, SlideMenuLauncherDelegate, CustomMenuBarDelegate>
 
 @property (strong, nonatomic) CustomMenuBar *menu;
-@property (strong, nonatomic) NSMutableArray *videos;
+
 @property (strong, nonatomic) SlideMenuLauncher *launcher;
 
 @end
@@ -42,15 +43,6 @@
     return _launcher;
 }
 
-- (NSMutableArray *)videos
-{
-    if (!_videos)
-    {
-        _videos = [[NSMutableArray alloc] init];
-    }
-    
-    return _videos;
-}
 
 - (void)viewDidLoad
 {
@@ -70,7 +62,7 @@
 {
     [self setupMenu];
     [self setupNavigationBar];
-    [self loadFakeData];
+
     [self setupCollectionView];
     
 }
@@ -105,12 +97,12 @@
 
 - (void)setupCollectionView
 {
+    
     self.collectionView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0);
     self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 0);
     self.collectionView.pagingEnabled = true;
     // Register Cell
-   // [self.collectionView registerClass:[VideoCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell2"];
+    [self.collectionView registerClass:[FeedCollectionViewCell class] forCellWithReuseIdentifier:@"FeedCell"];
     self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
@@ -154,42 +146,11 @@
 {
     NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
     [self.collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionNone animated:true];
-}
-
-#pragma mark - <UICollectionViewDataSource>
-
-/*
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return [self.videos count];
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    VideoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    [cell configureCell:self.videos[indexPath.row]];
-    
-    return cell;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    float inset = 32.0f;
-    float aspectRatio = (9.0 / 16.0);
-    float y = (self.view.frame.size.width - inset) * aspectRatio;
-    float offset = 68.0f;
-    
-    return CGSizeMake(self.view.frame.size.width, y + offset + 16.0);
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
-    return 5.0f;
+    int currentIndex = (int)index;
+    [self changeTitle:currentIndex];
 }
 
 
-
-*/
 #pragma mark - SettingsLauncherViewDelegate
 
 - (void)finishedPickingOption:(NSInteger)selectedIndex
@@ -198,6 +159,9 @@
     vc.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController pushViewController:vc animated:true];
 }
+
+#pragma mark - <UICollectionViewDataSource>
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return 4;
@@ -205,21 +169,15 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell2" forIndexPath:indexPath];
+    FeedCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FeedCell" forIndexPath:indexPath];
     
-    if (indexPath.row % 2 == 0) {
-        
-        cell.backgroundColor = [UIColor blueColor];
-    } else
-    {
-        cell.backgroundColor = [UIColor greenColor];
-    }
+
     return cell;
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+    return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - 50);
 }
 
 #pragma mark - <UIScrollViewDelegate>
@@ -229,27 +187,25 @@
     self.menu.underlineLeftAnchorConstraint.constant = scrollView.contentOffset.x / 4.0f;
 
 }
+
 -(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     float width = self.view.frame.size.width;
     float index = targetContentOffset->x / width;
+    
+    int currentIndex = (int)index;
+    [self changeTitle:currentIndex];
+    
+    
     NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
     [self.menu.collectionView selectItemAtIndexPath:path animated:YES scrollPosition:UICollectionViewScrollPositionNone];
-
 }
 
-
 #pragma mark - Helpers
-
-- (void)loadFakeData
+- (void)changeTitle:(int)currentIndex
 {
-    Video *vid1 = [[Video alloc] initWithTitle:@"The Nyan Cat Documentation" withImageName:@"nyan-cat" andAuthor:@"Nyan Cat Fans" andViewCount:@"3,000,000 views"];
-    
-    Video *vid2 = [[Video alloc] initWithTitle:@"Dragon Ball Z: Vegeta" withImageName:@"vegeta" andAuthor:@"Dragon Ball Z Fans" andViewCount:@"9,000 views"];
-    
-    Video *vid3 = [[Video alloc] initWithTitle:@"Nyan Cat Races With Other Catdfasdfsadfsdfasdfsdfsafsfsdafsa" withImageName:@"nyan-cat-race" andAuthor:@"Nyan Cat Fans" andViewCount:@"8,000,000 views"];
-    self.videos = [@[vid1, vid2, vid3] mutableCopy];
-    
+    NSArray *titles = @[@"Home", @"Trending", @"Subscriptions", @"Profile"];
+    ((UILabel *)self.navigationItem.titleView).text = titles[currentIndex];
 }
 
 @end
