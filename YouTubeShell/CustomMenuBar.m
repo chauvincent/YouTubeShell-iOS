@@ -50,6 +50,17 @@ BOOL first = false;
         self.collectionView.dataSource = self;
         [self addSubview:self.collectionView];
         
+        UIView *underlineBar = [[UIView alloc] init];
+        underlineBar.backgroundColor = [UIColor whiteColor];
+        underlineBar.alpha = 0.8;
+        underlineBar.translatesAutoresizingMaskIntoConstraints = false;
+        [self addSubview:underlineBar];
+        [underlineBar.leftAnchor constraintEqualToAnchor:self.leftAnchor].active = true;
+        [underlineBar.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = true;
+        [underlineBar.widthAnchor constraintEqualToAnchor:self.widthAnchor multiplier: 0.25].active = true;
+        [underlineBar.heightAnchor constraintEqualToConstant:8.0f].active = true;
+        
+        
         [self.collectionView registerClass:[MenuCollectionViewCell class] forCellWithReuseIdentifier:@"CellMenu"];
         [self addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.collectionView]];
         [self addVisualConstraintWithFormat:@"V:|[v0]|" andView:@[self.collectionView]];

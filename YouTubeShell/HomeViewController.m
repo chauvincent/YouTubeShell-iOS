@@ -110,9 +110,11 @@
 {
     UIView *redOverlay = [[UIView alloc] init];
     redOverlay.backgroundColor = [UIColor redColor];
+    
     [self.view addSubview:redOverlay];
     [self.view addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[redOverlay]];
     [self.view addVisualConstraintWithFormat:@"V:|[v0(50)]|" andView:@[redOverlay]];
+    
     
     [self.view addSubview:self.menu];
     [self.view addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.menu]];
