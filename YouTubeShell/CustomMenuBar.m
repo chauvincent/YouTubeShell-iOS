@@ -9,6 +9,14 @@
 #import "CustomMenuBar.h"
 #import "MenuCollectionViewCell.h"
 
+@interface CustomMenuBar()
+
+@property (strong, nonatomic) NSLayoutConstraint *underlineLeftAnchorConstraint;
+
+@end
+
+
+
 @implementation CustomMenuBar
 
 BOOL first = false;
@@ -51,14 +59,16 @@ BOOL first = false;
         [self addSubview:self.collectionView];
         
         UIView *underlineBar = [[UIView alloc] init];
-        underlineBar.backgroundColor = [UIColor whiteColor];
-        underlineBar.alpha = 0.8;
+        underlineBar.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.8];
         underlineBar.translatesAutoresizingMaskIntoConstraints = false;
         [self addSubview:underlineBar];
-        [underlineBar.leftAnchor constraintEqualToAnchor:self.leftAnchor].active = true;
+        
+        self.underlineLeftAnchorConstraint = [underlineBar.leftAnchor constraintEqualToAnchor:self.leftAnchor];
+        self.underlineLeftAnchorConstraint.active = true;
+        
         [underlineBar.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = true;
         [underlineBar.widthAnchor constraintEqualToAnchor:self.widthAnchor multiplier: 0.25].active = true;
-        [underlineBar.heightAnchor constraintEqualToConstant:8.0f].active = true;
+        [underlineBar.heightAnchor constraintEqualToConstant: 8.0f].active = true;
         
         
         [self.collectionView registerClass:[MenuCollectionViewCell class] forCellWithReuseIdentifier:@"CellMenu"];
@@ -91,8 +101,13 @@ BOOL first = false;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    float selectedX = (CGFloat)indexPath.row * self.frame.size.width / 4;
     
+    self.underlineLeftAnchorConstraint.constant = selectedX;
+
+    [UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:1 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [self layoutIfNeeded];
+    } completion:nil];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
