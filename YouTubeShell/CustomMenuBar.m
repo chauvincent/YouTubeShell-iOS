@@ -11,11 +11,7 @@
 
 @interface CustomMenuBar()
 
-@property (strong, nonatomic) NSLayoutConstraint *underlineLeftAnchorConstraint;
-
 @end
-
-
 
 @implementation CustomMenuBar
 
@@ -59,7 +55,7 @@ BOOL first = false;
         [self addSubview:self.collectionView];
         
         UIView *underlineBar = [[UIView alloc] init];
-        underlineBar.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.8];
+        underlineBar.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.9];
         underlineBar.translatesAutoresizingMaskIntoConstraints = false;
         [self addSubview:underlineBar];
         
@@ -101,13 +97,13 @@ BOOL first = false;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    float selectedX = (CGFloat)indexPath.row * self.frame.size.width / 4;
+    [self.delegate scrollToMenuItemIndex:(int)indexPath.row];
+//    float selectedX = (CGFloat)indexPath.row * self.frame.size.width / 4;
+//    self.underlineLeftAnchorConstraint.constant = selectedX;
+//    [UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:1 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseOut animations:^{
+//        [self layoutIfNeeded];
+//    } completion:nil];
     
-    self.underlineLeftAnchorConstraint.constant = selectedX;
-
-    [UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:1 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self layoutIfNeeded];
-    } completion:nil];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath

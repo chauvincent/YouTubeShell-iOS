@@ -12,7 +12,7 @@
 #import "CustomMenuBar.h"
 #import "Video.h"
 
-@interface HomeViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, SlideMenuLauncherDelegate>
+@interface HomeViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, SlideMenuLauncherDelegate, CustomMenuBarDelegate>
 
 @property (strong, nonatomic) CustomMenuBar *menu;
 @property (strong, nonatomic) NSMutableArray *videos;
@@ -27,6 +27,7 @@
     if (!_menu)
     {
         _menu = [[CustomMenuBar alloc] initWithFrame:self.view.bounds];
+        _menu.delegate = self;
     }
     return _menu;
 }
@@ -55,7 +56,7 @@
 {
     [super viewDidLoad];
     [self setupView];
-    [self setupMenu];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,14 +68,10 @@
 
 - (void)setupView
 {
+    [self setupMenu];
     [self setupNavigationBar];
     [self loadFakeData];
-    self.collectionView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0);
-    self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 0);
-    
-    // Register Cell
-    [self.collectionView registerClass:[VideoCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    [self setupCollectionView];
     
 }
 
@@ -104,6 +101,17 @@
     self.navigationItem.titleView = label;
     self.navigationController.hidesBarsOnSwipe = true;
     
+}
+
+- (void)setupCollectionView
+{
+    self.collectionView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0);
+    self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 0);
+    self.collectionView.pagingEnabled = true;
+    // Register Cell
+   // [self.collectionView registerClass:[VideoCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell2"];
+    self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)setupMenu
@@ -140,12 +148,17 @@
 - (void)dotsBarButtonPressed:(id)sender
 {
     [self.launcher showMenu];
-    
-    
+}
+
+- (void)scrollToMenuItemIndex:(int)index
+{
+    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionNone animated:true];
 }
 
 #pragma mark - <UICollectionViewDataSource>
 
+/*
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return [self.videos count];
@@ -174,6 +187,9 @@
     return 5.0f;
 }
 
+
+
+*/
 #pragma mark - SettingsLauncherViewDelegate
 
 - (void)finishedPickingOption:(NSInteger)selectedIndex
@@ -181,6 +197,37 @@
     UIViewController *vc = [[UIViewController alloc] init];
     vc.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController pushViewController:vc animated:true];
+}
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return 4;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell2" forIndexPath:indexPath];
+    
+    if (indexPath.row % 2 == 0) {
+        
+        cell.backgroundColor = [UIColor blueColor];
+    } else
+    {
+        cell.backgroundColor = [UIColor greenColor];
+    }
+    return cell;
+}
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+}
+
+#pragma mark - <UIScrollViewDelegate>
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    self.menu.underlineLeftAnchorConstraint.constant = scrollView.contentOffset.x / 4.0f;
+
 }
 
 
