@@ -46,7 +46,6 @@
     {
         _imageView = [[UIImageView alloc] init];
         _imageView.backgroundColor = [UIColor blueColor];
-      //  _imageView.image = [UIImage imageNamed:@"nyan-cat"];
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
         _imageView.clipsToBounds = true;
     }

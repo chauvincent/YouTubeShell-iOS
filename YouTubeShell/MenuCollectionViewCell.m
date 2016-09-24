@@ -11,8 +11,7 @@
 
 @implementation MenuCollectionViewCell
 
-
-- (UIImageView*)imageView
+- (UIImageView *)imageView
 {
     if (!_imageView)
     {
@@ -35,7 +34,7 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder*)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     

@@ -39,7 +39,7 @@ BOOL first = false;
 }
 
 
--  (id)initWithFrame:(CGRect)aRect
+- (id)initWithFrame:(CGRect)aRect
 {
     self = [super initWithFrame:aRect];
     
@@ -59,7 +59,7 @@ BOOL first = false;
     return self;
 }
 
-- (id)initWithCoder:(NSCoder*)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     

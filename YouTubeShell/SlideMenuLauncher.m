@@ -9,6 +9,7 @@
 #import "SlideMenuLauncher.h"
 #import "SlideMenuCollectionViewCell.h"
 
+#pragma mark - Settings Model
 
 @interface Settings : NSObject
 
@@ -19,7 +20,7 @@
 
 @implementation Settings
 
-- (instancetype)initWithName:(NSString *)name andImageName:(NSString*)imageName
+- (instancetype)initWithName:(NSString *)name andImageName:(NSString *)imageName
 {
     self = [super init];
     if (self) {
@@ -31,6 +32,8 @@
 
 @end
 
+
+#pragma mark - SlideMenuLauncher
 
 @interface SlideMenuLauncher() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -88,7 +91,7 @@
 
 - (void)showMenu
 {
-    UIWindow* window = [[UIApplication sharedApplication] keyWindow];
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     self.dimBackground = [[UIView alloc] init];
     self.dimBackground.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     [window addSubview:self.dimBackground];
@@ -120,7 +123,7 @@
 - (void)dismissMenu:(id)sender
 {
     [UIView animateWithDuration:0.5 animations:^{
-            UIWindow* window = [[UIApplication sharedApplication] keyWindow];
+            UIWindow *window = [[UIApplication sharedApplication] keyWindow];
             float menuHeight = (CGFloat)self.settings.count * 50;
             self.dimBackground.alpha = 0;
             self.collectionView.frame = CGRectMake(0, window.frame.size.height, window.frame.size.width, menuHeight);
@@ -149,12 +152,12 @@
     return cell;
 }
 
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return CGSizeMake(self.collectionView.frame.size.width, 50.0);
 }
 
--(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
     return 0;
 }
@@ -163,7 +166,7 @@
 {
     
     [UIView animateWithDuration:0.5 animations:^{
-        UIWindow* window = [[UIApplication sharedApplication] keyWindow];
+        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
         float menuHeight = (CGFloat)self.settings.count * 50;
         self.dimBackground.alpha = 0;
         self.collectionView.frame = CGRectMake(0, window.frame.size.height, window.frame.size.width, menuHeight);
