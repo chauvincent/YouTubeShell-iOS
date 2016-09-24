@@ -7,8 +7,9 @@
 //
 
 #import "SlideMenuLauncher.h"
+#import "SlideMenuCollectionViewCell.h"
 
-@interface SlideMenuLauncher()
+@interface SlideMenuLauncher() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) UIView *dimBackground;
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -26,8 +27,9 @@
         
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor whiteColor];
-//        _collectionView.dataSource = self;
-//        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+        [_collectionView registerClass:[SlideMenuCollectionViewCell class] forCellWithReuseIdentifier:@"Slide Menu Cell"];
     }
     return _collectionView;
 }
@@ -75,13 +77,12 @@
         self.dimBackground.alpha = 1.0;
     }];
 }
+
 - (void)dismissMenu:(id)sender
 {
     [UIView animateWithDuration:0.5 animations:^{
             UIWindow* window = [[UIApplication sharedApplication] keyWindow];
             float menuHeight = 200.0f;
-            float menuOrigin = window.frame.size.height - menuHeight;
-            self.collectionView.frame = CGRectMake(0, menuOrigin, window.frame.size.width, menuHeight);
             self.dimBackground.alpha = 0;
             self.collectionView.frame = CGRectMake(0, window.frame.size.height, window.frame.size.width, menuHeight);
         } completion:^(BOOL finished) {
@@ -89,5 +90,25 @@
             [self.collectionView removeFromSuperview];
         }];
 }
-     
+
+#pragma mark <UICollectionViewDelegate>
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return 5;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Slide Menu Cell" forIndexPath:indexPath];
+    return cell;
+}
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(self.collectionView.frame.size.width, 50.0);
+}
+
+
+
 @end
