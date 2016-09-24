@@ -23,6 +23,7 @@
 - (instancetype)initWithName:(NSString *)name andImageName:(NSString *)imageName
 {
     self = [super init];
+    
     if (self) {
         _name = name;
         _imageNamed = imageName;
@@ -31,7 +32,6 @@
 }
 
 @end
-
 
 #pragma mark - SlideMenuLauncher
 
@@ -146,6 +146,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SlideMenuCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SlideMenuCell" forIndexPath:indexPath];
+    
     Settings *setting = self.settings[indexPath.row];
     [cell configureCellWith:setting.name andImageName:setting.imageNamed];
     
@@ -170,6 +171,7 @@
         float menuHeight = (CGFloat)self.settings.count * 50;
         self.dimBackground.alpha = 0;
         self.collectionView.frame = CGRectMake(0, window.frame.size.height, window.frame.size.width, menuHeight);
+        
     } completion:^(BOOL finished) {
         
         if (finished)
