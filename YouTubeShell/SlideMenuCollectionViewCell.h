@@ -10,4 +10,6 @@
 
 @interface SlideMenuCollectionViewCell : UICollectionViewCell
 
+- (void)configureCellWith:(NSString *)name andImageName:(NSString* )imageName;
+
 @end

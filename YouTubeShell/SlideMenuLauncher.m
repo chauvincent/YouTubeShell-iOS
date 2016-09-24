@@ -68,7 +68,7 @@
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
-        [_collectionView registerClass:[SlideMenuCollectionViewCell class] forCellWithReuseIdentifier:@"Slide Menu Cell"];
+        [_collectionView registerClass:[SlideMenuCollectionViewCell class] forCellWithReuseIdentifier:@"SlideMenuCell"];
     }
     return _collectionView;
 }
@@ -134,12 +134,15 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 6;
+    return [self.settings count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Slide Menu Cell" forIndexPath:indexPath];
+    SlideMenuCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SlideMenuCell" forIndexPath:indexPath];
+    Settings *setting = self.settings[indexPath.row];
+    [cell configureCellWith:setting.name andImageName:setting.imageNamed];
+    
     return cell;
 }
 

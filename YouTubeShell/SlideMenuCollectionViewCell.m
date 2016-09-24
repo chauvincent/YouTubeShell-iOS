@@ -83,9 +83,10 @@
     
 }
 
-- (void)configureCell
+- (void)configureCellWith:(NSString *)name andImageName:(NSString* )imageName
 {
-    
+    self.settingsNameLabel.text = name;
+    self.imageView.image = [UIImage imageNamed:imageName];
 }
 
 @end
