@@ -36,9 +36,12 @@
 - (instancetype)init
 {
     self = [super init];
-    if (self) {
+    
+    if (self)
+    {
 
     }
+    
     return self;
 }
 
@@ -56,7 +59,13 @@
     float menuHeight = 200.0f;
     float menuOrigin = window.frame.size.height - menuHeight;
     
-    self.collectionView.frame = CGRectMake(0, menuOrigin, window.frame.size.width, menuHeight);
+    self.collectionView.frame = CGRectMake(0, window.frame.size.height, window.frame.size.width, menuHeight);
+
+    [UIView animateWithDuration:0.3 delay:0.2 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    
+        self.collectionView.frame = CGRectMake(0, menuOrigin, window.frame.size.width, menuHeight);
+    
+    } completion:nil];
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissMenu:)];
     [self.dimBackground addGestureRecognizer:tapRecognizer];
@@ -69,9 +78,15 @@
 - (void)dismissMenu:(id)sender
 {
     [UIView animateWithDuration:0.5 animations:^{
+            UIWindow* window = [[UIApplication sharedApplication] keyWindow];
+            float menuHeight = 200.0f;
+            float menuOrigin = window.frame.size.height - menuHeight;
+            self.collectionView.frame = CGRectMake(0, menuOrigin, window.frame.size.width, menuHeight);
             self.dimBackground.alpha = 0;
+            self.collectionView.frame = CGRectMake(0, window.frame.size.height, window.frame.size.width, menuHeight);
         } completion:^(BOOL finished) {
             [self.dimBackground removeFromSuperview];
+            [self.collectionView removeFromSuperview];
         }];
 }
      
