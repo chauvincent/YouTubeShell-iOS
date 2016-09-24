@@ -24,7 +24,6 @@
     if (!_settingsNameLabel)
     {
         _settingsNameLabel = [[UILabel alloc] init];
-        _settingsNameLabel.text = @"Settings";
     }
     return _settingsNameLabel;
 }
@@ -34,7 +33,6 @@
     if (!_imageView)
     {
         _imageView = [[UIImageView alloc] init];
-        _imageView.image = [[UIImage imageNamed:@"settings_btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [_imageView setTintColor:[UIColor grayColor]];
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
         _imageView.clipsToBounds = true;
@@ -76,12 +74,17 @@
     [self addVisualConstraintWithFormat:@"V:[v0(30)]" andView:@[self.imageView]];
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView
-                                                     attribute:NSLayoutAttributeTop
+                                                     attribute:NSLayoutAttributeCenterY
                                                      relatedBy:NSLayoutRelationEqual
                                                         toItem:self
-                                                     attribute:NSLayoutAttributeTop
+                                                     attribute:NSLayoutAttributeCenterY
                                                     multiplier:1.0
-                                                      constant:10.0]];
+                                                      constant:0]];
+    
+}
+
+- (void)configureCell
+{
     
 }
 

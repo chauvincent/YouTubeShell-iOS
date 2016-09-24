@@ -9,15 +9,54 @@
 #import "SlideMenuLauncher.h"
 #import "SlideMenuCollectionViewCell.h"
 
-@interface SlideMenuLauncher() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
-@property (strong, nonatomic) UIView *dimBackground;
-@property (strong, nonatomic) UICollectionView *collectionView;
+@interface Settings : NSObject
+
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *imageNamed;
+
+@end
+
+@implementation Settings
+
+- (instancetype)initWithName:(NSString *)name andImageName:(NSString*)imageName
+{
+    self = [super init];
+    if (self) {
+        _name = name;
+        _imageNamed = imageName;
+    }
+    return self;
+}
 
 @end
 
 
+@interface SlideMenuLauncher() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+
+@property (strong, nonatomic) UIView *dimBackground;
+@property (strong, nonatomic) UICollectionView *collectionView;
+@property (strong, nonatomic) NSArray *settings;
+
+@end
+
 @implementation SlideMenuLauncher
+
+- (NSArray *)settings
+{
+    if (!_settings)
+    {
+        Settings *settings  = [[Settings alloc] initWithName:@"Settings" andImageName:@"settings"];
+        Settings *privacy   = [[Settings alloc] initWithName:@"Privacy Policy" andImageName:@"privacy"];
+        Settings *feedback  = [[Settings alloc] initWithName:@"Settings" andImageName:@"feedback"];
+        Settings *help      = [[Settings alloc] initWithName:@"Help" andImageName:@"help"];
+        Settings *logout    = [[Settings alloc] initWithName:@"Logout" andImageName:@"logout"];
+        Settings *cancel    = [[Settings alloc] initWithName:@"Cancel" andImageName:@"cancel"];
+        _settings = @[settings, privacy, feedback, help, logout, cancel];
+    }
+    return _settings;
+}
+
 
 - (UICollectionView *)collectionView
 {
@@ -58,7 +97,7 @@
     
     [window addSubview:self.collectionView];
     
-    float menuHeight = 200.0f;
+    float menuHeight = 300.0f;
     float menuOrigin = window.frame.size.height - menuHeight;
     
     self.collectionView.frame = CGRectMake(0, window.frame.size.height, window.frame.size.width, menuHeight);
@@ -82,7 +121,7 @@
 {
     [UIView animateWithDuration:0.5 animations:^{
             UIWindow* window = [[UIApplication sharedApplication] keyWindow];
-            float menuHeight = 200.0f;
+            float menuHeight = 300.0f;
             self.dimBackground.alpha = 0;
             self.collectionView.frame = CGRectMake(0, window.frame.size.height, window.frame.size.width, menuHeight);
         } completion:^(BOOL finished) {
@@ -95,7 +134,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 5;
+    return 6;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -109,6 +148,9 @@
     return CGSizeMake(self.collectionView.frame.size.width, 50.0);
 }
 
-
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0;
+}
 
 @end
