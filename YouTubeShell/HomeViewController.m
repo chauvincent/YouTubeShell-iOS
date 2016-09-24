@@ -12,7 +12,7 @@
 #import "CustomMenuBar.h"
 #import "Video.h"
 
-@interface HomeViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface HomeViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, SlideMenuLauncherDelegate>
 
 @property (strong, nonatomic) CustomMenuBar *menu;
 @property (strong, nonatomic) NSMutableArray *videos;
@@ -36,6 +36,7 @@
     if (!_launcher)
     {
         _launcher = [[SlideMenuLauncher alloc] init];
+        _launcher.delegate = self;
     }
     return _launcher;
 }
@@ -125,6 +126,8 @@
 - (void)dotsBarButtonPressed:(id)sender
 {
     [self.launcher showMenu];
+    
+    
 }
 
 #pragma mark - <UICollectionViewDataSource>
@@ -156,6 +159,16 @@
 {
     return 5.0f;
 }
+
+#pragma mark - SettingsLauncherViewDelegate
+
+- (void)finishedPickingOption:(NSInteger)selectedIndex
+{
+    UIViewController *vc = [[UIViewController alloc] init];
+    vc.view.backgroundColor = [UIColor whiteColor];
+    [self.navigationController pushViewController:vc animated:true];
+}
+
 
 #pragma mark - Helpers
 

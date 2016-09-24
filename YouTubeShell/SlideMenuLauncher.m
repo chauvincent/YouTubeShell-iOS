@@ -48,7 +48,7 @@
     {
         Settings *settings  = [[Settings alloc] initWithName:@"Settings" andImageName:@"settings"];
         Settings *privacy   = [[Settings alloc] initWithName:@"Privacy Policy" andImageName:@"privacy"];
-        Settings *feedback  = [[Settings alloc] initWithName:@"Settings" andImageName:@"feedback"];
+        Settings *feedback  = [[Settings alloc] initWithName:@"Feedback" andImageName:@"feedback"];
         Settings *help      = [[Settings alloc] initWithName:@"Help" andImageName:@"help"];
         Settings *logout    = [[Settings alloc] initWithName:@"Logout" andImageName:@"logout"];
         Settings *cancel    = [[Settings alloc] initWithName:@"Cancel" andImageName:@"cancel"];
@@ -97,7 +97,7 @@
     
     [window addSubview:self.collectionView];
     
-    float menuHeight = 300.0f;
+    float menuHeight = (CGFloat)self.settings.count * 50;
     float menuOrigin = window.frame.size.height - menuHeight;
     
     self.collectionView.frame = CGRectMake(0, window.frame.size.height, window.frame.size.width, menuHeight);
@@ -121,12 +121,15 @@
 {
     [UIView animateWithDuration:0.5 animations:^{
             UIWindow* window = [[UIApplication sharedApplication] keyWindow];
-            float menuHeight = 300.0f;
+            float menuHeight = (CGFloat)self.settings.count * 50;
             self.dimBackground.alpha = 0;
             self.collectionView.frame = CGRectMake(0, window.frame.size.height, window.frame.size.width, menuHeight);
         } completion:^(BOOL finished) {
-            [self.dimBackground removeFromSuperview];
-            [self.collectionView removeFromSuperview];
+            if (finished)
+            {
+                [self.dimBackground removeFromSuperview];
+                [self.collectionView removeFromSuperview];
+            }
         }];
 }
 
@@ -154,6 +157,26 @@
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
     return 0;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        UIWindow* window = [[UIApplication sharedApplication] keyWindow];
+        float menuHeight = (CGFloat)self.settings.count * 50;
+        self.dimBackground.alpha = 0;
+        self.collectionView.frame = CGRectMake(0, window.frame.size.height, window.frame.size.width, menuHeight);
+    } completion:^(BOOL finished) {
+        
+        if (finished)
+        {
+            [self.dimBackground removeFromSuperview];
+            [self.collectionView removeFromSuperview];
+            [self.delegate finishedPickingOption:indexPath.row];
+        }
+
+    }];
 }
 
 @end

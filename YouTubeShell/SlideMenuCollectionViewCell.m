@@ -83,10 +83,29 @@
     
 }
 
+-(void)setHighlighted:(BOOL)highlighted
+{
+    
+    if (highlighted)
+    {
+        self.backgroundColor = [UIColor grayColor];
+        self.settingsNameLabel.textColor = [UIColor whiteColor];
+        self.imageView.tintColor = [UIColor whiteColor];
+    }
+    else
+    {
+        self.backgroundColor = [UIColor whiteColor];
+        self.settingsNameLabel.textColor = [UIColor blackColor];
+        self.imageView.tintColor = [UIColor grayColor];
+    }
+}
+
 - (void)configureCellWith:(NSString *)name andImageName:(NSString* )imageName
 {
     self.settingsNameLabel.text = name;
-    self.imageView.image = [UIImage imageNamed:imageName];
+    self.imageView.image = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.imageView.tintColor = [UIColor grayColor];
 }
+
 
 @end
