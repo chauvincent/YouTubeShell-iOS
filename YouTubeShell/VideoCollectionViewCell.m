@@ -16,7 +16,7 @@
     {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.translatesAutoresizingMaskIntoConstraints = false;
-        _titleLabel.text = @" Nyan Cat Flies Across The Moon";
+//        _titleLabel.text = @" Nyan Cat Flies Across The Moon";
     }
     
     return _titleLabel;
@@ -29,7 +29,7 @@
         _descriptionTextView = [[UITextView alloc] init];
         _descriptionTextView.translatesAutoresizingMaskIntoConstraints = false;
         _descriptionTextView.textColor = [UIColor grayColor];
-        _descriptionTextView.text = @"NyanCat Fans - 9,000,000,000 views - 23 mins ago";
+//        _descriptionTextView.text = @"NyanCat Fans - 9,000,000,000 views - 23 mins ago";
     }
     
     return _descriptionTextView;
@@ -170,6 +170,16 @@
                                                     multiplier:0
                                                       constant:30]];
 
+}
+
+- (void)configureCell
+{
+//    _title = title;
+//    _author = author;
+//    _imageName = name;
+//    _viewCount = count;
+
+    
 }
 
 @end

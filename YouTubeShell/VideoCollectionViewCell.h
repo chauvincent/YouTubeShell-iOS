@@ -8,13 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "UIView+Constraints.h"
+#import "Video.h"
+
 
 @interface VideoCollectionViewCell : UICollectionViewCell
 
+// Views
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIImageView *userImageView;
 @property (strong, nonatomic) UIView *separator;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UITextView *descriptionTextView;
+
+// Model
+@property (strong, nonatomic) Video *video;
+
+- (void)configureCell;
 
 @end

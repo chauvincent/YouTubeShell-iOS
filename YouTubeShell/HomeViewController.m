@@ -9,10 +9,12 @@
 #import "HomeViewController.h"
 #import "VideoCollectionViewCell.h"
 #import "CustomMenuBar.h"
+#import "Video.h"
 
 @interface HomeViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) CustomMenuBar *menu;
+@property (strong, nonatomic) NSMutableArray *videos;
 
 @end
 
@@ -25,6 +27,15 @@
         _menu = [[CustomMenuBar alloc] initWithFrame:self.view.bounds];
     }
     return _menu;
+}
+- (NSMutableArray *)videos
+{
+    if (!_videos)
+    {
+        _videos = [[NSMutableArray alloc] init];
+    }
+    
+    return _videos;
 }
 
 - (void)viewDidLoad
@@ -40,21 +51,11 @@
 }
 
 #pragma mark - View Setup
+
 - (void)setupView
 {
-    // Navigation Set up
-    UILabel *navLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 30, self.view.frame.size.height)];
-    navLabel.text = @"Home";
-    navLabel.textColor = [UIColor whiteColor];
-    
-    UIView *status = [[UIView alloc] init];
-    status.backgroundColor = [UIColor colorWithRed:139/255.0 green:0 blue:0 alpha:0.3];
-    UIWindow* window = [[UIApplication sharedApplication] keyWindow];
-    [window addSubview:status];
-    [window addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[status]];
-    [window addVisualConstraintWithFormat:@"V:|[v0(20)]" andView:@[status]];
-    
-    self.navigationItem.titleView = navLabel;
+    [self setupNavigationBar];
+    [self loadFakeData];
     self.collectionView.contentInset = UIEdgeInsetsMake(50, 0, 0, 0);
     self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 0);
     
@@ -62,7 +63,32 @@
     [self.collectionView registerClass:[VideoCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     
+}
 
+- (void)setupNavigationBar
+{
+    
+    // Navigation Bar View
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 30, self.view.frame.size.height)];
+    label.text = @"Home";
+    label.textColor = [UIColor whiteColor];
+    
+    UIView *statusBarView = [[UIView alloc] init];
+    statusBarView.backgroundColor = [UIColor colorWithRed:139/255.0 green:0 blue:0 alpha:0.3];
+    
+    UIWindow* window = [[UIApplication sharedApplication] keyWindow];
+    [window addSubview:statusBarView];
+    
+    [window addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[statusBarView]];
+    [window addVisualConstraintWithFormat:@"V:|[v0(20)]" andView:@[statusBarView]];
+
+    // Navigation Bar Buttons
+    UIImage *searchIcon = [[UIImage imageNamed:@"searchbtn"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *searchBarItem = [[UIBarButtonItem alloc] initWithImage:searchIcon style:UIBarButtonItemStylePlain target:self action:@selector(searchBarButtonPressed:)];
+    UIImage *threeDotsIcon = [[UIImage imageNamed:@"threedots_btn"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *dotsBarButtonItem = [[UIBarButtonItem alloc] initWithImage:threeDotsIcon style:UIBarButtonItemStylePlain target:self action:@selector(dotsBarButtonPressed:)];
+    self.navigationItem.rightBarButtonItems = @[dotsBarButtonItem, searchBarItem];
+    self.navigationItem.titleView = label;
 }
 
 - (void)setupMenu
@@ -71,25 +97,36 @@
     [self.view addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.menu]];
     [self.view addVisualConstraintWithFormat:@"V:|[v0(50)]" andView:@[self.menu]];
     
-    NSIndexPath *selection = [NSIndexPath indexPathForItem:0
-                                                 inSection:0];
-    
-    [self.menu.collectionView selectItemAtIndexPath:selection
-                                      animated:false
-                                scrollPosition:UICollectionViewScrollPositionNone];
+    NSIndexPath *selection = [NSIndexPath indexPathForItem:0 inSection:0];
+
+    [self.menu.collectionView selectItemAtIndexPath:selection animated:false scrollPosition:UICollectionViewScrollPositionNone];
     [self.menu.collectionView reloadData];
+}
+
+#pragma mark - Handle Navigation Press
+
+- (void)searchBarButtonPressed:(id)sender
+{
+    
+}
+
+- (void)dotsBarButtonPressed:(id)sender
+{
+    
 }
 
 #pragma mark - <UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 5;
+    return [self.videos count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     VideoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    cell.video = self.videos[indexPath.row];
+    [cell configureCell];
     
     return cell;
 }
@@ -107,6 +144,19 @@
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
     return 5.0f;
+}
+
+#pragma mark - Helpers
+
+- (void)loadFakeData
+{
+    Video *vid1 = [[Video alloc] initWithTitle:@"Nyan Cat Flies Over The Moon" withImageName:@"nyan-cat" andAuthor:@"Nyan Cat Fans" andViewCount:@"3,000,000"];
+    
+    Video *vid2 = [[Video alloc] initWithTitle:@"Dragon Ball Z: Vegeta" withImageName:@"vegeta" andAuthor:@"Dragon Ball Fan" andViewCount:@"9,000"];
+    
+    Video *vid3 = [[Video alloc] initWithTitle:@"Nyan Cat Races With Other Cat" withImageName:@"nyan-cat-race" andAuthor:@"Nyan Cat Fans" andViewCount:@"8,000,000"];
+    self.videos = [@[vid1, vid2, vid3] mutableCopy];
+    
 }
 
 @end

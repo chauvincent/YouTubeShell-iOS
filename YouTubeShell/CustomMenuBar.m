@@ -48,10 +48,9 @@ BOOL first = false;
         self.backgroundColor = [UIColor redColor];
         self.collectionView.delegate = self;
         self.collectionView.dataSource = self;
-        
         [self addSubview:self.collectionView];
-        [_collectionView registerClass:[MenuCollectionViewCell class] forCellWithReuseIdentifier:@"CellMenu"];
         
+        [self.collectionView registerClass:[MenuCollectionViewCell class] forCellWithReuseIdentifier:@"CellMenu"];
         [self addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.collectionView]];
         [self addVisualConstraintWithFormat:@"V:|[v0]|" andView:@[self.collectionView]];
 
