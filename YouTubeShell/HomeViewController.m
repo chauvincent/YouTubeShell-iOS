@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 #import "VideoCollectionViewCell.h"
+#import "SlideMenuLauncher.h"
 #import "CustomMenuBar.h"
 #import "Video.h"
 
@@ -15,12 +16,13 @@
 
 @property (strong, nonatomic) CustomMenuBar *menu;
 @property (strong, nonatomic) NSMutableArray *videos;
+@property (strong, nonatomic) SlideMenuLauncher *launcher;
 
 @end
 
 @implementation HomeViewController
 
-- (CustomMenuBar*)menu
+- (CustomMenuBar *)menu
 {
     if (!_menu)
     {
@@ -28,6 +30,16 @@
     }
     return _menu;
 }
+
+- (SlideMenuLauncher *)launcher
+{
+    if (!_launcher)
+    {
+        _launcher = [[SlideMenuLauncher alloc] init];
+    }
+    return _launcher;
+}
+
 - (NSMutableArray *)videos
 {
     if (!_videos)
@@ -98,7 +110,7 @@
     [self.view addVisualConstraintWithFormat:@"V:|[v0(50)]" andView:@[self.menu]];
     
     NSIndexPath *selection = [NSIndexPath indexPathForItem:0 inSection:0];
-
+    
     [self.menu.collectionView selectItemAtIndexPath:selection animated:false scrollPosition:UICollectionViewScrollPositionNone];
     [self.menu.collectionView reloadData];
 }
@@ -112,8 +124,10 @@
 
 - (void)dotsBarButtonPressed:(id)sender
 {
-    
+    [self.launcher showMenu];
 }
+
+
 
 #pragma mark - <UICollectionViewDataSource>
 
@@ -137,7 +151,7 @@
     float y = (self.view.frame.size.width - inset) * aspectRatio;
     float offset = 68.0f;
     
-    return CGSizeMake(self.view.frame.size.width, y + offset);
+    return CGSizeMake(self.view.frame.size.width, y + offset + 16.0);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
@@ -153,7 +167,7 @@
     
     Video *vid2 = [[Video alloc] initWithTitle:@"Dragon Ball Z: Vegeta" withImageName:@"vegeta" andAuthor:@"Dragon Ball Z Fans" andViewCount:@"9,000 views"];
     
-    Video *vid3 = [[Video alloc] initWithTitle:@"Nyan Cat Races With Other Cat" withImageName:@"nyan-cat-race" andAuthor:@"Nyan Cat Fans" andViewCount:@"8,000,000 views"];
+    Video *vid3 = [[Video alloc] initWithTitle:@"Nyan Cat Races With Other Catdfasdfsadfsdfasdfsdfsafsfsdafsa" withImageName:@"nyan-cat-race" andAuthor:@"Nyan Cat Fans" andViewCount:@"8,000,000 views"];
     self.videos = [@[vid1, vid2, vid3] mutableCopy];
     
 }

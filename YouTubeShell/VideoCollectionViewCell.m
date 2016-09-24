@@ -8,6 +8,12 @@
 
 #import "VideoCollectionViewCell.h"
 
+@interface VideoCollectionViewCell()
+
+@property (strong, nonatomic) NSLayoutConstraint *titleHeightConstraint;
+
+@end
+
 @implementation VideoCollectionViewCell
 
 - (UILabel *)titleLabel
@@ -16,7 +22,7 @@
     {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.translatesAutoresizingMaskIntoConstraints = false;
-//        _titleLabel.text = @" Nyan Cat Flies Across The Moon";
+        _titleLabel.numberOfLines = 2;
     }
     
     return _titleLabel;
@@ -29,7 +35,6 @@
         _descriptionTextView = [[UITextView alloc] init];
         _descriptionTextView.translatesAutoresizingMaskIntoConstraints = false;
         _descriptionTextView.textColor = [UIColor grayColor];
-//        _descriptionTextView.text = @"NyanCat Fans - 9,000,000,000 views - 23 mins ago";
     }
     
     return _descriptionTextView;
@@ -99,7 +104,7 @@
     [self addVisualConstraintWithFormat:@"H:|-16-[v0]-16-|" andView:@[self.imageView]];
     [self addVisualConstraintWithFormat:@"H:|-16-[v0(44)]" andView:@[self.userImageView]];
 
-    [self addVisualConstraintWithFormat:@"V:|-16-[v0]-12-[v1(44)]-16-[v2]|" andView:@[self.imageView, self.userImageView, self.separator]];
+    [self addVisualConstraintWithFormat:@"V:|-16-[v0]-12-[v1(44)]-36-[v2]|" andView:@[self.imageView, self.userImageView, self.separator]];
     
     [self addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.separator]];
     [self addVisualConstraintWithFormat:@"V:[v0(1)]|" andView:@[self.separator]];
@@ -129,13 +134,14 @@
                                                     multiplier:1
                                                       constant:0]];
     
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.titleLabel
-                                                     attribute:NSLayoutAttributeHeight
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self.titleLabel
-                                                     attribute:NSLayoutAttributeHeight
-                                                    multiplier:0
-                                                      constant:20]];
+    self.titleHeightConstraint = [NSLayoutConstraint constraintWithItem:self.titleLabel
+                                                         attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.titleLabel
+                                                         attribute:NSLayoutAttributeHeight
+                                                        multiplier:0
+                                                          constant:20];
+    [self addConstraint:self.titleHeightConstraint];
     
     // Description TextView Constraints
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.descriptionTextView
@@ -170,6 +176,7 @@
                                                     multiplier:0
                                                       constant:30]];
 
+
 }
 
 - (void)configureCell:(Video *)video
@@ -179,6 +186,24 @@
     self.titleLabel.text = video.title;
     self.descriptionTextView.text = [NSString stringWithFormat:@"%@ - %@ - 23m ago", video.author, video.viewCount];
     
+    NSString *title = self.titleLabel.text;
+    CGSize size = CGSizeMake(self.frame.size.width - 16 - 44 - 8 - 16, 600);
+    CGRect labelRect = [title
+                        boundingRectWithSize:size
+                        options:NSStringDrawingUsesLineFragmentOrigin
+                        attributes:@{
+                                     NSFontAttributeName : [UIFont systemFontOfSize:14]
+                                     }
+                        context:nil];
+    
+    if (labelRect.size.height > 20)
+    {
+        self.titleHeightConstraint.constant = 44;
+    }
+    else
+    {
+        self.titleHeightConstraint.constant = 20;
+    }
 }
 
 @end

@@ -22,7 +22,7 @@ BOOL first = false;
     return _imageNames;
 }
 
-- (UICollectionView*)collectionView
+- (UICollectionView *)collectionView
 {
     
     if (!_collectionView)
