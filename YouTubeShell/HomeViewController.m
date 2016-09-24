@@ -229,6 +229,14 @@
     self.menu.underlineLeftAnchorConstraint.constant = scrollView.contentOffset.x / 4.0f;
 
 }
+-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    float width = self.view.frame.size.width;
+    float index = targetContentOffset->x / width;
+    NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
+    [self.menu.collectionView selectItemAtIndexPath:path animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+
+}
 
 
 #pragma mark - Helpers
