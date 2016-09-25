@@ -25,6 +25,7 @@
     Video *vid2 = [[Video alloc] initWithTitle:@"Trending Video 2" withImageName:@"vegeta" andAuthor:@"Dragon Ball Z Fans" andViewCount:@"9,000 views"];
     
     Video *vid3 = [[Video alloc] initWithTitle:@"Trending Video 1" withImageName:@"nyan-cat-race" andAuthor:@"Nyan Cat Fans" andViewCount:@"8,000,000 views"];
+    
     self.videos = [@[vid3, vid2, vid1] mutableCopy];
     
 }

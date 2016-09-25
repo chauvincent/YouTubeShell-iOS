@@ -11,6 +11,7 @@
 #import "FeedCollectionViewCell.h"
 #import "TrendingCollectionViewCell.h"
 #import "SubscriptionCollectionViewCell.h"
+#import "ProfileCollectionViewCell.h"
 #import "SlideMenuLauncher.h"
 #import "CustomMenuBar.h"
 #import "Video.h"
@@ -93,7 +94,7 @@
     UIBarButtonItem *dotsBarButtonItem = [[UIBarButtonItem alloc] initWithImage:threeDotsIcon style:UIBarButtonItemStylePlain target:self action:@selector(dotsBarButtonPressed:)];
     self.navigationItem.rightBarButtonItems = @[dotsBarButtonItem, searchBarItem];
     self.navigationItem.titleView = label;
-    self.navigationController.hidesBarsOnSwipe = true;
+    //self.navigationController.hidesBarsOnSwipe = true;
     
 }
 
@@ -107,6 +108,8 @@
     [self.collectionView registerClass:[FeedCollectionViewCell class] forCellWithReuseIdentifier:@"FeedCell"];
     [self.collectionView registerClass:[TrendingCollectionViewCell class] forCellWithReuseIdentifier:@"TrendingCell"];
     [self.collectionView registerClass:[SubscriptionCollectionViewCell class] forCellWithReuseIdentifier:@"SubCell"];
+    [self.collectionView registerClass:[ProfileCollectionViewCell class] forCellWithReuseIdentifier:@"ProfileCell"];
+    
     self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
@@ -118,7 +121,6 @@
     [self.view addSubview:redOverlay];
     [self.view addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[redOverlay]];
     [self.view addVisualConstraintWithFormat:@"V:|[v0(50)]|" andView:@[redOverlay]];
-    
     
     [self.view addSubview:self.menu];
     [self.view addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.menu]];
@@ -177,38 +179,42 @@
     
     if (indexPath.row == 0)
     {
-        FeedCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FeedCell" forIndexPath:indexPath];
-        return cell;
+        return [collectionView dequeueReusableCellWithReuseIdentifier:@"FeedCell" forIndexPath:indexPath];
     }
 
     if (indexPath.row == 1)
     {
-        TrendingCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TrendingCell" forIndexPath:indexPath];
-        return cell;
+        return [collectionView dequeueReusableCellWithReuseIdentifier:@"TrendingCell" forIndexPath:indexPath];
+        
     }
+    
     if (indexPath.row == 2)
     {
-        SubscriptionCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SubCell" forIndexPath:indexPath];
-        return cell;
+        return [collectionView dequeueReusableCellWithReuseIdentifier:@"SubCell" forIndexPath:indexPath];
+    }
+    
+    if (indexPath.row == 3)
+    {
+        return [collectionView dequeueReusableCellWithReuseIdentifier:@"ProfileCell" forIndexPath:indexPath];
     }
     
     return cell;
 }
 
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - 50);
 }
 
 #pragma mark - <UIScrollViewDelegate>
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     self.menu.underlineLeftAnchorConstraint.constant = scrollView.contentOffset.x / 4.0f;
 
 }
 
--(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     float width = self.view.frame.size.width;
     float index = targetContentOffset->x / width;
@@ -222,6 +228,7 @@
 }
 
 #pragma mark - Helpers
+
 - (void)changeTitle:(int)currentIndex
 {
     NSArray *titles = @[@"Home", @"Trending", @"Subscriptions", @"Profile"];
