@@ -78,7 +78,6 @@
     [self addSubview:self.collectionView];
     [self addVisualConstraintWithFormat:@"H:|[v0]|" andView:@[self.collectionView]];
     [self addVisualConstraintWithFormat:@"V:|-50-[v0]|" andView:@[self.collectionView]];
-
 }
 
 

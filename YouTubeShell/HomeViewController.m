@@ -9,6 +9,8 @@
 #import "HomeViewController.h"
 #import "VideoCollectionViewCell.h"
 #import "FeedCollectionViewCell.h"
+#import "TrendingCollectionViewCell.h"
+#import "SubscriptionCollectionViewCell.h"
 #import "SlideMenuLauncher.h"
 #import "CustomMenuBar.h"
 #import "Video.h"
@@ -103,6 +105,8 @@
     self.collectionView.pagingEnabled = true;
     // Register Cell
     [self.collectionView registerClass:[FeedCollectionViewCell class] forCellWithReuseIdentifier:@"FeedCell"];
+    [self.collectionView registerClass:[TrendingCollectionViewCell class] forCellWithReuseIdentifier:@"TrendingCell"];
+    [self.collectionView registerClass:[SubscriptionCollectionViewCell class] forCellWithReuseIdentifier:@"SubCell"];
     self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
@@ -171,7 +175,23 @@
 {
     FeedCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FeedCell" forIndexPath:indexPath];
     
+    if (indexPath.row == 0)
+    {
+        FeedCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FeedCell" forIndexPath:indexPath];
+        return cell;
+    }
 
+    if (indexPath.row == 1)
+    {
+        TrendingCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TrendingCell" forIndexPath:indexPath];
+        return cell;
+    }
+    if (indexPath.row == 2)
+    {
+        SubscriptionCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SubCell" forIndexPath:indexPath];
+        return cell;
+    }
+    
     return cell;
 }
 
