@@ -7,6 +7,8 @@
 //
 
 #import "VideoPlayer.h"
+#import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface PlayerView : UIView
 
@@ -22,6 +24,18 @@
     if (self)
     {
         self.backgroundColor = [UIColor blackColor];
+        NSString *url = @"http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_20mb.mp4";
+        NSURL *videoUrl = [NSURL URLWithString:url];
+        
+        AVPlayer *player = [[AVPlayer alloc] initWithURL:videoUrl];
+        AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
+        playerLayer.frame = self.frame;
+        [self.layer addSublayer:playerLayer];
+
+        [player play];
+
+        
+        
     }
     return self;
     
@@ -50,8 +64,8 @@
     
     float height = window.frame.size.width * 9 / 16;
     
-    UIView *videoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, window.frame.size.width, height)];
-    videoView.backgroundColor = [UIColor blackColor];
+    PlayerView *videoView = [[PlayerView alloc] initWithFrame:CGRectMake(0, 0, window.frame.size.width, height)];
+
     [view addSubview:videoView];
     
     
