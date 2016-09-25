@@ -29,4 +29,5 @@
     self.videos = [@[vid3, vid2, vid1] mutableCopy];
     
 }
+
 @end

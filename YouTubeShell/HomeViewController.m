@@ -19,7 +19,6 @@
 @interface HomeViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, SlideMenuLauncherDelegate, CustomMenuBarDelegate>
 
 @property (strong, nonatomic) CustomMenuBar *menu;
-
 @property (strong, nonatomic) SlideMenuLauncher *launcher;
 
 @end
@@ -65,7 +64,6 @@
 {
     [self setupMenu];
     [self setupNavigationBar];
-
     [self setupCollectionView];
     
 }
@@ -157,7 +155,7 @@
 }
 
 
-#pragma mark - SettingsLauncherViewDelegate
+#pragma mark - <SettingsLauncherViewDelegate>
 
 - (void)finishedPickingOption:(NSInteger)selectedIndex
 {
@@ -222,7 +220,6 @@
     int currentIndex = (int)index;
     [self changeTitle:currentIndex];
     
-    
     NSIndexPath *path = [NSIndexPath indexPathForRow:index inSection:0];
     [self.menu.collectionView selectItemAtIndexPath:path animated:YES scrollPosition:UICollectionViewScrollPositionNone];
 }
@@ -234,5 +231,7 @@
     NSArray *titles = @[@"Home", @"Trending", @"Subscriptions", @"Profile"];
     ((UILabel *)self.navigationItem.titleView).text = titles[currentIndex];
 }
+
+
 
 @end

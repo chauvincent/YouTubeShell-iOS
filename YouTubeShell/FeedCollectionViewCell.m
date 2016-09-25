@@ -10,6 +10,7 @@
 #import "UIView+Constraints.h"
 #import "VideoCollectionViewCell.h"
 #import "Video.h"
+#import "VideoPlayer.h"
 
 @interface FeedCollectionViewCell() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -80,8 +81,6 @@
     [self addVisualConstraintWithFormat:@"V:|-50-[v0]|" andView:@[self.collectionView]];
 }
 
-
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return [self.videos count];
@@ -102,14 +101,20 @@
     float y = (self.frame.size.width - inset) * aspectRatio;
     float offset = 68.0f;
  
-    return CGSizeMake(self.frame.size.width, y + offset + 16.0);
+    return CGSizeMake(self.frame.size.width, y + offset + 50);
 }
  
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
     return 0;
 }
- 
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    //http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_20mb.mp4
+    VideoPlayer *player = [[VideoPlayer alloc] init];
+    [player showVideoPlayer];
+}
 
 #pragma mark - Helpers
 
@@ -119,7 +124,7 @@
     
     Video *vid2 = [[Video alloc] initWithTitle:@"Dragon Ball Z: Vegeta" withImageName:@"vegeta" andAuthor:@"Dragon Ball Z Fans" andViewCount:@"9,000 views"];
     
-    Video *vid3 = [[Video alloc] initWithTitle:@"Nyan Cat Races With Other Catdfasdfsadfsdfasdfsdfsafsfsdafsa" withImageName:@"nyan-cat-race" andAuthor:@"Nyan Cat Fans" andViewCount:@"8,000,000 views"];
+    Video *vid3 = [[Video alloc] initWithTitle:@"Nyan Cat Races With Other " withImageName:@"nyan-cat-race" andAuthor:@"Nyan Cat Fans" andViewCount:@"8,000,000 views"];
     self.videos = [@[vid1, vid2, vid3] mutableCopy];
     
 }
