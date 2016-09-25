@@ -12,11 +12,14 @@
 
 
 #pragma mark - PlayerView Class
+BOOL isPlaying = false;
 
 @interface PlayerView : UIView
 
 @property (strong, nonatomic) UIView *buttonContainerView;
 @property (strong, nonatomic) UIActivityIndicatorView *indicator;
+@property (strong, nonatomic) UIButton *pauseBtn;
+@property (strong, nonatomic) AVPlayer *player;
 
 @end
 
@@ -44,6 +47,21 @@
     return _buttonContainerView;
 }
 
+- (UIButton *)pauseBtn
+{
+    if (!_pauseBtn)
+    {
+        _pauseBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        [_pauseBtn setImage:[UIImage imageNamed:@"pause_btn"] forState:UIControlStateNormal] ;
+        _pauseBtn.translatesAutoresizingMaskIntoConstraints = false;
+        _pauseBtn.tintColor = [UIColor whiteColor];
+        _pauseBtn.hidden = true;
+        [_pauseBtn addTarget:self action:@selector(pauseBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    return _pauseBtn;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -59,8 +77,12 @@
         [self.indicator.centerXAnchor constraintEqualToAnchor:self.centerXAnchor].active = true;
         [self.indicator.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = true;
         
-        
-        //self.backgroundColor = [UIColor blackColor];
+
+        [self.buttonContainerView addSubview:self.pauseBtn];
+        [self.pauseBtn.centerXAnchor constraintEqualToAnchor:self.centerXAnchor].active = true;
+        [self.pauseBtn.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = true;
+        [self.pauseBtn.widthAnchor constraintEqualToConstant:50].active = true;
+        [self.pauseBtn.heightAnchor constraintEqualToConstant:50].active = true;
         
     }
     
@@ -80,21 +102,36 @@
     return self;
 }
 
-- (void) setupView
+- (void)setupView
 {
     self.backgroundColor = [UIColor blackColor];
     NSString *url = @"http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_20mb.mp4";
     NSURL *videoUrl = [NSURL URLWithString:url];
-    AVPlayer *player = [[AVPlayer alloc] initWithURL:videoUrl];
-    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
+    self.player = [[AVPlayer alloc] initWithURL:videoUrl];
+    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
     playerLayer.frame = self.frame;
     [self.layer addSublayer:playerLayer];
-    [player play];
+    [self.player play];
     
-    [player addObserver:self forKeyPath:@"currentItem.loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+    [self.player addObserver:self forKeyPath:@"currentItem.loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
     
 }
 
+- (void)pauseBtnPressed:(id)sender
+{
+    if (isPlaying)
+    {
+        [self.player pause];
+        [self.pauseBtn setImage:[UIImage imageNamed:@"play_btn"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self.player play];
+        [self.pauseBtn setImage:[UIImage imageNamed:@"pause_btn"] forState:UIControlStateNormal];
+    }
+    isPlaying = !isPlaying;
+    
+}
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -103,7 +140,8 @@
         if ([keyPath isEqualToString: @"currentItem.loadedTimeRanges"])
         {
             [self.indicator stopAnimating];
-            NSLog(@"%@", change);
+            self.pauseBtn.hidden = false;
+            isPlaying = true;
         }
     }
     else
