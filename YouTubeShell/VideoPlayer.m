@@ -16,17 +16,29 @@
 @interface PlayerView : UIView
 
 @property (strong, nonatomic) UIView *buttonContainerView;
+@property (strong, nonatomic) UIActivityIndicatorView *indicator;
 
 @end
 
 @implementation PlayerView
+
+- (UIActivityIndicatorView *)indicator
+{
+    if (!_indicator)
+    {
+        _indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _indicator.translatesAutoresizingMaskIntoConstraints = false;
+        [_indicator startAnimating];
+    }
+    return _indicator;
+}
 
 - (UIView *)buttonContainerView
 {
     if (!_buttonContainerView)
     {
         _buttonContainerView = [[UIView alloc] init];
-        _buttonContainerView.backgroundColor = [UIColor redColor];
+        _buttonContainerView.backgroundColor = [UIColor clearColor];
     }
  
     return _buttonContainerView;
@@ -38,19 +50,18 @@
     
     if (self)
     {
-     
+
+        [self setupView];
         self.buttonContainerView.frame = self.frame;
         [self addSubview:self.buttonContainerView];
         
-        self.backgroundColor = [UIColor blackColor];
-        NSString *url = @"http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_20mb.mp4";
-        NSURL *videoUrl = [NSURL URLWithString:url];
-        AVPlayer *player = [[AVPlayer alloc] initWithURL:videoUrl];
-        AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
-        playerLayer.frame = self.frame;
-        [self.layer addSublayer:playerLayer];
-        [player play];
-
+        [self.buttonContainerView addSubview:self.indicator];
+        [self.indicator.centerXAnchor constraintEqualToAnchor:self.centerXAnchor].active = true;
+        [self.indicator.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = true;
+        
+        
+        //self.backgroundColor = [UIColor blackColor];
+        
     }
     
     return self;
@@ -69,9 +80,39 @@
     return self;
 }
 
+- (void) setupView
+{
+    self.backgroundColor = [UIColor blackColor];
+    NSString *url = @"http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_20mb.mp4";
+    NSURL *videoUrl = [NSURL URLWithString:url];
+    AVPlayer *player = [[AVPlayer alloc] initWithURL:videoUrl];
+    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
+    playerLayer.frame = self.frame;
+    [self.layer addSublayer:playerLayer];
+    [player play];
+    
+    [player addObserver:self forKeyPath:@"currentItem.loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+    
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == nil)
+    {
+        if ([keyPath isEqualToString: @"currentItem.loadedTimeRanges"])
+        {
+            [self.indicator stopAnimating];
+            NSLog(@"%@", change);
+        }
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
 @end
-
-
 
 #pragma mark - VideoPlayer Class
 
