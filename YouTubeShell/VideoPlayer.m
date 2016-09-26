@@ -33,6 +33,7 @@ BOOL isPlaying = false;
         _slider = [[UISlider alloc] init];
         _slider.translatesAutoresizingMaskIntoConstraints = false;
         _slider.minimumTrackTintColor = [UIColor redColor];
+        [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
         [_slider setThumbImage:[UIImage imageNamed:@"thumb"] forState:UIControlStateNormal];
     }
     
@@ -84,6 +85,7 @@ BOOL isPlaying = false;
         _playBackLabel = [[UILabel alloc] init];
         _playBackLabel.text = @"00:00";
         _playBackLabel.tintColor = [UIColor whiteColor];
+        _playBackLabel.textColor = [UIColor whiteColor];
         _playBackLabel.font = [UIFont boldSystemFontOfSize:14.0];
         _playBackLabel.textAlignment = NSTextAlignmentRight;
         _playBackLabel.translatesAutoresizingMaskIntoConstraints = false;
@@ -161,6 +163,18 @@ BOOL isPlaying = false;
     
 }
 
+- (void)sliderValueChanged:(id)sender
+{
+    CMTime duration = self.player.currentItem.duration;
+    NSUInteger seconds = CMTimeGetSeconds(duration);
+    float value = (Float64)self.slider.value * seconds;
+    
+    CMTime seekTime = CMTimeMake(value, 1);
+    [self.player seekToTime:seekTime completionHandler:^(BOOL finished) {
+        
+    }];
+}
+
 - (void)pauseBtnPressed:(id)sender
 {
     if (isPlaying)
@@ -181,7 +195,14 @@ BOOL isPlaying = false;
 {
     if (context == nil)
     {
-        if ([keyPath isEqualToString: @"currentItem.loadedTimeRanges"])
+        CMTime time = self.player.currentItem.duration;
+        NSUInteger dTotalSeconds = CMTimeGetSeconds(time);
+        NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
+        NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
+        NSString *videoDurationText = [NSString stringWithFormat:@"%02lu:%02lu", (unsigned long)dMinutes, (unsigned long)dSeconds];
+        self.playBackLabel.text = videoDurationText;
+        
+        if ([keyPath isEqualToString:@"currentItem.loadedTimeRanges"])
         {
             [self.indicator stopAnimating];
             self.pauseBtn.hidden = false;
