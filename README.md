@@ -13,7 +13,8 @@ YouTubeShell
 
 ![enter image description here](http://i558.photobucket.com/albums/ss26/vincent_chau1/2_zpsqoc2a33o.jpg)
 > **Note:**
-> - This project is loaded with fake data. My intent is to just recreate the main components of the UI.
+> - This project is manually loaded with data for videos. 
+> - My intent is to just recreate the main components of the UI for this project.
 
 
 #### <i class="icon-file"></i> Working Progress
