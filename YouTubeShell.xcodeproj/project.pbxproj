@@ -20,6 +20,7 @@
 		7554E0E41D975DEF004D4529 /* SubscriptionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7554E0E31D975DEF004D4529 /* SubscriptionCollectionViewCell.m */; };
 		7554E0E71D9766F3004D4529 /* ProfileCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7554E0E61D9766F3004D4529 /* ProfileCollectionViewCell.m */; };
 		7554E0EA1D97FF57004D4529 /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7554E0E91D97FF57004D4529 /* VideoPlayer.m */; };
+		7559D3591D99B82600611E4F /* PlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7559D3581D99B82600611E4F /* PlayerView.m */; };
 		7584A7921D94D109008DF960 /* VideoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7584A7911D94D109008DF960 /* VideoCollectionViewCell.m */; };
 		7584A7961D94DAEF008DF960 /* UIView+Constraints.m in Sources */ = {isa = PBXBuildFile; fileRef = 7584A7951D94DAEF008DF960 /* UIView+Constraints.m */; };
 		7584A79C1D950341008DF960 /* CustomMenuBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7584A79B1D950341008DF960 /* CustomMenuBar.m */; };
@@ -52,6 +53,8 @@
 		7554E0E61D9766F3004D4529 /* ProfileCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileCollectionViewCell.m; sourceTree = "<group>"; };
 		7554E0E81D97FF57004D4529 /* VideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
 		7554E0E91D97FF57004D4529 /* VideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayer.m; sourceTree = "<group>"; };
+		7559D3571D99B82600611E4F /* PlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerView.h; sourceTree = "<group>"; };
+		7559D3581D99B82600611E4F /* PlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerView.m; sourceTree = "<group>"; };
 		7584A7901D94D109008DF960 /* VideoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCollectionViewCell.h; sourceTree = "<group>"; };
 		7584A7911D94D109008DF960 /* VideoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCollectionViewCell.m; sourceTree = "<group>"; };
 		7584A7941D94DAEF008DF960 /* UIView+Constraints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Constraints.h"; sourceTree = "<group>"; };
@@ -117,6 +120,8 @@
 			children = (
 				7554E0E81D97FF57004D4529 /* VideoPlayer.h */,
 				7554E0E91D97FF57004D4529 /* VideoPlayer.m */,
+				7559D3571D99B82600611E4F /* PlayerView.h */,
+				7559D3581D99B82600611E4F /* PlayerView.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -261,6 +266,7 @@
 				7554E0DE1D96B556004D4529 /* FeedCollectionViewCell.m in Sources */,
 				7584A79C1D950341008DF960 /* CustomMenuBar.m in Sources */,
 				7554E0EA1D97FF57004D4529 /* VideoPlayer.m in Sources */,
+				7559D3591D99B82600611E4F /* PlayerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
