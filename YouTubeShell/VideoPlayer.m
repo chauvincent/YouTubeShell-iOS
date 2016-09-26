@@ -22,6 +22,7 @@ BOOL isPlaying = false;
 @property (strong, nonatomic) AVPlayer *player;
 @property (strong, nonatomic) UILabel *playBackLabel;
 @property (strong, nonatomic) UISlider *slider;
+@property (strong, nonatomic) UILabel *currentTimeLabel;
 @end
 
 @implementation PlayerView
@@ -84,15 +85,29 @@ BOOL isPlaying = false;
     {
         _playBackLabel = [[UILabel alloc] init];
         _playBackLabel.text = @"00:00";
-        _playBackLabel.tintColor = [UIColor whiteColor];
         _playBackLabel.textColor = [UIColor whiteColor];
         _playBackLabel.font = [UIFont boldSystemFontOfSize:14.0];
         _playBackLabel.textAlignment = NSTextAlignmentRight;
         _playBackLabel.translatesAutoresizingMaskIntoConstraints = false;
     }
+    
     return _playBackLabel;
 }
 
+- (UILabel *)currentTimeLabel
+{
+    if (!_currentTimeLabel)
+    {
+        _currentTimeLabel = [[UILabel alloc] init];
+        _currentTimeLabel.text = @"00:00";
+        _playBackLabel.textColor = [UIColor whiteColor];
+        _playBackLabel.font = [UIFont boldSystemFontOfSize:14.0];
+        _playBackLabel.textAlignment = NSTextAlignmentRight;
+        _playBackLabel.translatesAutoresizingMaskIntoConstraints = false;
+    }
+    
+    return _playBackLabel;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -187,8 +202,8 @@ BOOL isPlaying = false;
         [self.player play];
         [self.pauseBtn setImage:[UIImage imageNamed:@"pause_btn"] forState:UIControlStateNormal];
     }
-    isPlaying = !isPlaying;
     
+    isPlaying = !isPlaying;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
