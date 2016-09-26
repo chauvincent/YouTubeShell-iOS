@@ -20,10 +20,25 @@ BOOL isPlaying = false;
 @property (strong, nonatomic) UIActivityIndicatorView *indicator;
 @property (strong, nonatomic) UIButton *pauseBtn;
 @property (strong, nonatomic) AVPlayer *player;
-
+@property (strong, nonatomic) UILabel *playBackLabel;
+@property (strong, nonatomic) UISlider *slider;
 @end
 
 @implementation PlayerView
+
+- (UISlider *)slider
+{
+    if (!_slider)
+    {
+        _slider = [[UISlider alloc] init];
+        _slider.translatesAutoresizingMaskIntoConstraints = false;
+        _slider.minimumTrackTintColor = [UIColor redColor];
+        [_slider setThumbImage:[UIImage imageNamed:@"thumb"] forState:UIControlStateNormal];
+    }
+    
+    return _slider;
+}
+
 
 - (UIActivityIndicatorView *)indicator
 {
@@ -62,6 +77,21 @@ BOOL isPlaying = false;
     return _pauseBtn;
 }
 
+- (UILabel *)playBackLabel
+{
+    if (!_playBackLabel)
+    {
+        _playBackLabel = [[UILabel alloc] init];
+        _playBackLabel.text = @"00:00";
+        _playBackLabel.tintColor = [UIColor whiteColor];
+        _playBackLabel.font = [UIFont boldSystemFontOfSize:14.0];
+        _playBackLabel.textAlignment = NSTextAlignmentRight;
+        _playBackLabel.translatesAutoresizingMaskIntoConstraints = false;
+    }
+    return _playBackLabel;
+}
+
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -83,6 +113,20 @@ BOOL isPlaying = false;
         [self.pauseBtn.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = true;
         [self.pauseBtn.widthAnchor constraintEqualToConstant:50].active = true;
         [self.pauseBtn.heightAnchor constraintEqualToConstant:50].active = true;
+        
+        
+        [self.buttonContainerView addSubview:self.playBackLabel];
+        [self.playBackLabel.rightAnchor constraintEqualToAnchor:self.rightAnchor constant:-8].active = true;
+        [self.playBackLabel.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = true;
+        [self.playBackLabel.widthAnchor constraintEqualToConstant:60].active = true;
+        [self.playBackLabel.heightAnchor constraintEqualToConstant:30].active = true;
+        
+        [self.buttonContainerView addSubview:self.slider];
+        [self.slider.rightAnchor constraintEqualToAnchor:self.playBackLabel.leftAnchor].active = true;
+        [self.slider.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = true;
+        [self.slider.leftAnchor constraintEqualToAnchor:self.leftAnchor].active = true;
+        [self.slider.heightAnchor constraintEqualToConstant:30].active = true;
+        
         
     }
     
@@ -142,6 +186,10 @@ BOOL isPlaying = false;
             [self.indicator stopAnimating];
             self.pauseBtn.hidden = false;
             isPlaying = true;
+        }
+        else
+        {
+            isPlaying = false;
         }
     }
     else
