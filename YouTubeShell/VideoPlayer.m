@@ -100,13 +100,13 @@ BOOL isPlaying = false;
     {
         _currentTimeLabel = [[UILabel alloc] init];
         _currentTimeLabel.text = @"00:00";
-        _playBackLabel.textColor = [UIColor whiteColor];
-        _playBackLabel.font = [UIFont boldSystemFontOfSize:14.0];
-        _playBackLabel.textAlignment = NSTextAlignmentRight;
-        _playBackLabel.translatesAutoresizingMaskIntoConstraints = false;
+        _currentTimeLabel.textColor = [UIColor whiteColor];
+        _currentTimeLabel.font = [UIFont boldSystemFontOfSize:14.0];
+        _currentTimeLabel.textAlignment = NSTextAlignmentLeft;
+        _currentTimeLabel.translatesAutoresizingMaskIntoConstraints = false;
     }
     
-    return _playBackLabel;
+    return _currentTimeLabel;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -117,6 +117,7 @@ BOOL isPlaying = false;
     {
 
         [self setupView];
+        
         self.buttonContainerView.frame = self.frame;
         [self addSubview:self.buttonContainerView];
         
@@ -138,12 +139,18 @@ BOOL isPlaying = false;
         [self.playBackLabel.widthAnchor constraintEqualToConstant:60].active = true;
         [self.playBackLabel.heightAnchor constraintEqualToConstant:30].active = true;
         
+        [self.buttonContainerView addSubview:self.currentTimeLabel];
+        [self.currentTimeLabel.leftAnchor constraintEqualToAnchor:self.leftAnchor constant:8].active = true;
+        [self.currentTimeLabel.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = true;
+        [self.currentTimeLabel.widthAnchor constraintEqualToConstant:60].active = true;
+        [self.currentTimeLabel.heightAnchor constraintEqualToConstant:30].active = true;
+        
         [self.buttonContainerView addSubview:self.slider];
         [self.slider.rightAnchor constraintEqualToAnchor:self.playBackLabel.leftAnchor].active = true;
         [self.slider.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = true;
-        [self.slider.leftAnchor constraintEqualToAnchor:self.leftAnchor].active = true;
+        [self.slider.leftAnchor constraintEqualToAnchor:self.currentTimeLabel.rightAnchor].active = true;
         [self.slider.heightAnchor constraintEqualToConstant:30].active = true;
-        
+
         
     }
     
@@ -173,9 +180,26 @@ BOOL isPlaying = false;
     playerLayer.frame = self.frame;
     [self.layer addSublayer:playerLayer];
     [self.player play];
-    
     [self.player addObserver:self forKeyPath:@"currentItem.loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
     
+    __weak typeof(self) weakSelf = self;
+    [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 2) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+        NSUInteger currentTotalSeconds = CMTimeGetSeconds(time);
+        NSUInteger currentMinutes = floor(currentTotalSeconds % 3600 / 60);
+        NSUInteger currentSeconds = floor(currentTotalSeconds % 3600 % 60);
+        NSString *videoCurrentText = [NSString stringWithFormat:@"%02lu:%02lu", (unsigned long)currentMinutes, (unsigned long)currentSeconds];
+        weakSelf.currentTimeLabel.text = videoCurrentText;
+        weakSelf.slider.value = (float)(currentTotalSeconds / CMTimeGetSeconds(weakSelf.player.currentItem.duration));
+    }];
+    
+    
+    
+    // Dim background
+    CAGradientLayer *gradLayer = [[CAGradientLayer alloc] init];
+    gradLayer.colors = @[[UIColor clearColor], [UIColor blackColor]];
+    gradLayer.locations = @[@0.6, @1.1];
+    [self.buttonContainerView.layer addSublayer:gradLayer];
+
 }
 
 - (void)sliderValueChanged:(id)sender
@@ -216,6 +240,15 @@ BOOL isPlaying = false;
         NSUInteger dSeconds = floor(dTotalSeconds % 3600 % 60);
         NSString *videoDurationText = [NSString stringWithFormat:@"%02lu:%02lu", (unsigned long)dMinutes, (unsigned long)dSeconds];
         self.playBackLabel.text = videoDurationText;
+        
+        
+//        CMTime currentTime = self.player.currentItem.currentTime;
+//        NSUInteger currentTotalSeconds = CMTimeGetSeconds(currentTime);
+//        NSUInteger currentMinutes = floor(currentTotalSeconds % 3600 / 60);
+//        NSUInteger currentSeconds = floor(currentTotalSeconds % 3600 % 60);
+//        NSString *videoCurrentText = [NSString stringWithFormat:@"%02lu:%02lu", (unsigned long)currentMinutes, (unsigned long)currentSeconds];
+//        self.currentTimeLabel.text = videoCurrentText;
+//        
         
         if ([keyPath isEqualToString:@"currentItem.loadedTimeRanges"])
         {
