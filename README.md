@@ -13,7 +13,7 @@ YouTubeShell
 
 ![enter image description here](http://i558.photobucket.com/albums/ss26/vincent_chau1/2_zpsqoc2a33o.jpg)
 > **Note:**
-> - This project is manually loaded with data for videos. 
+> - This project is pre-loaded with sample videos and thumbnail images. 
 > - My intent is to just recreate the main components of the UI for this project.
 
 
