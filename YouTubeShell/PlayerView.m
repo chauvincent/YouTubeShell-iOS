@@ -23,6 +23,8 @@ BOOL isPlaying = false;
 @property (strong, nonatomic) UILabel *playBackLabel;
 @property (strong, nonatomic) UISlider *slider;
 @property (strong, nonatomic) UILabel *currentTimeLabel;
+
+
 @end
 
 @implementation PlayerView
@@ -151,6 +153,7 @@ BOOL isPlaying = false;
         [self.slider.leftAnchor constraintEqualToAnchor:self.currentTimeLabel.rightAnchor].active = true;
         [self.slider.heightAnchor constraintEqualToConstant:30].active = true;
         
+        // Add gestures
         UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeUp:)];
         UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDown:)];
         swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
@@ -179,11 +182,14 @@ BOOL isPlaying = false;
 - (void)setupView
 {
     self.backgroundColor = [UIColor blackColor];
-    NSString *url = @"http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_5mb.mp4";
+    NSString *url = @"http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_1mb.mp4";
     NSURL *videoUrl = [NSURL URLWithString:url];
     self.player = [[AVPlayer alloc] initWithURL:videoUrl];
     AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
     playerLayer.frame = self.frame;
+    playerLayer.masksToBounds = YES;
+    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    
     [self.layer addSublayer:playerLayer];
     [self.player play];
     [self.player addObserver:self forKeyPath:@"currentItem.loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
@@ -280,7 +286,7 @@ BOOL isPlaying = false;
 
 - (BOOL)isMinimized
 {
-    NSLog(@"current origin of Y is %f", self.frame.origin.y);
+    NSLog(@"isMinimized(): current origin of Y is %f", self.frame.origin.y);
     return self.frame.origin.y > 0;
 }
 
@@ -293,33 +299,55 @@ BOOL isPlaying = false;
     }
     
     CGRect tallContainerFrame, containerFrame;
-    CGFloat tallContainerAlpha;
+    CGFloat alpha;
+   
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     
     if (minimized)
     {
-        NSLog(@"minimizeded = true ");
+        
+        NSLog(@"if minimized..");
         CGFloat minWidth = 160;
         CGFloat minHeight = 90;
-        CGFloat x = 320 - minWidth;
-        CGFloat y = self.bounds.size.height - minHeight;
-        tallContainerFrame = CGRectMake(x, y, 320, self.bounds.size.height);
-        containerFrame = CGRectMake(x, y, minWidth, minHeight);
-        tallContainerAlpha = 0.0;
+        
+        CGFloat minOriginX = window.frame.size.width - minWidth;
+        CGFloat minOriginY = window.frame.size.height - minHeight;
+        
+        NSLog(@"minOriginX: %lf", minOriginX);
+        NSLog(@"minOriginY: %lf", minOriginY);
+        
+        tallContainerFrame = CGRectMake(minOriginX, minOriginY, minWidth, minHeight);
+        containerFrame = CGRectMake(minOriginY, minOriginY, minWidth, minHeight);
+
+        alpha = 0;
     }
     else
     {
-        NSLog(@"else branch");
-        tallContainerFrame = self.bounds;
-        containerFrame = CGRectMake(0, 0, 320, 180);
-        tallContainerAlpha = 1.0;
+        NSLog(@"Else branch");
+        tallContainerFrame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+        alpha = 1;
     }
     
     NSTimeInterval duration = (animated)? 0.5 : 0.0;
     
-    [UIView animateWithDuration:duration animations:^{
+
+    [UIView animateWithDuration:0.5 animations:^{
+
         self.frame = tallContainerFrame;
-        self.frame = containerFrame;
-        self.alpha = tallContainerAlpha;
+        self.layer.frame = tallContainerFrame;
+        self.buttonContainerView.frame = tallContainerFrame;
+        
+    } completion:^(BOOL finished) {
+        
+        NSLog(@"DONE ANIMATIING: ");
+    
+        NSLog(@"current frame: %@", [NSString stringWithFormat:@"X: %lf, Y: %lf, W: %lf, H: %lf", self.frame.origin.x
+                      , self.frame.origin.y
+                      , self.frame.size.width,
+                      self.frame.size.height]);
+        
+        
     }];
+    
 }
 @end
