@@ -151,7 +151,13 @@ BOOL isPlaying = false;
         [self.slider.leftAnchor constraintEqualToAnchor:self.currentTimeLabel.rightAnchor].active = true;
         [self.slider.heightAnchor constraintEqualToConstant:30].active = true;
         
+        UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeUp:)];
+        UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDown:)];
+        swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
+        swipeDown.direction = UISwipeGestureRecognizerDirectionDown;
         
+        [self addGestureRecognizer:swipeDown];
+        [self addGestureRecognizer:swipeUp];
     }
     
     return self;
@@ -258,4 +264,62 @@ BOOL isPlaying = false;
     }
 }
 
+
+- (void)swipeUp:(UIGestureRecognizer *)gesture
+{
+    NSLog(@"did swipe up");
+    [self minimizePlayer:NO animated:YES];
+}
+
+- (void)swipeDown:(UIGestureRecognizer *)gesture
+{
+    NSLog(@"did swipe down");
+    [self minimizePlayer:YES animated:YES];
+}
+
+
+- (BOOL)isMinimized
+{
+    NSLog(@"current origin of Y is %f", self.frame.origin.y);
+    return self.frame.origin.y > 0;
+}
+
+- (void)minimizePlayer:(BOOL)minimized animated:(BOOL)animated
+{
+    if([self isMinimized] == minimized)
+    {
+        NSLog(@"return block called");
+        return;
+    }
+    
+    CGRect tallContainerFrame, containerFrame;
+    CGFloat tallContainerAlpha;
+    
+    if (minimized)
+    {
+        NSLog(@"minimizeded = true ");
+        CGFloat minWidth = 160;
+        CGFloat minHeight = 90;
+        CGFloat x = 320 - minWidth;
+        CGFloat y = self.bounds.size.height - minHeight;
+        tallContainerFrame = CGRectMake(x, y, 320, self.bounds.size.height);
+        containerFrame = CGRectMake(x, y, minWidth, minHeight);
+        tallContainerAlpha = 0.0;
+    }
+    else
+    {
+        NSLog(@"else branch");
+        tallContainerFrame = self.bounds;
+        containerFrame = CGRectMake(0, 0, 320, 180);
+        tallContainerAlpha = 1.0;
+    }
+    
+    NSTimeInterval duration = (animated)? 0.5 : 0.0;
+    
+    [UIView animateWithDuration:duration animations:^{
+        self.frame = tallContainerFrame;
+        self.frame = containerFrame;
+        self.alpha = tallContainerAlpha;
+    }];
+}
 @end

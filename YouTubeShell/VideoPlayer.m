@@ -11,29 +11,38 @@
 
 #pragma mark - VideoPlayer Class
 
+@interface VideoPlayer()
+
+@property (strong, nonatomic) UIView *infoView;
+
+@end
+
 @implementation VideoPlayer
 
 - (void)showVideoPlayer
 {
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    UIView *view = [[UIView alloc] initWithFrame:window.frame];
-    view.backgroundColor = [UIColor whiteColor];
+    self.infoView = [[UIView alloc] initWithFrame:window.frame];
+    self.infoView.backgroundColor = [UIColor whiteColor];
     
     float height = window.frame.size.width * 9 / 16;
     
     PlayerView *videoView = [[PlayerView alloc] initWithFrame:CGRectMake(0, 0, window.frame.size.width, height)];
 
-    [view addSubview:videoView];
+    [self.infoView addSubview:videoView];
     
-    [window addSubview:view];
-    view.frame = CGRectMake(window.frame.size.width - 10, window.frame.size.height - 10, 10, 10);
+    [window addSubview:self.infoView];
+    self.infoView.frame = CGRectMake(window.frame.size.width - 10, window.frame.size.height - 10, 10, 10);
     
     [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:1 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        view.frame = window.frame;
+        self.infoView.frame = window.frame;
     } completion:^(BOOL finished) {
+
+        
         
     }];
     
 }
+
 
 @end

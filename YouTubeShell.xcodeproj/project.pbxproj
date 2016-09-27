@@ -118,10 +118,10 @@
 		7554E0EB1D9800FD004D4529 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				7554E0E81D97FF57004D4529 /* VideoPlayer.h */,
-				7554E0E91D97FF57004D4529 /* VideoPlayer.m */,
 				7559D3571D99B82600611E4F /* PlayerView.h */,
 				7559D3581D99B82600611E4F /* PlayerView.m */,
+				7554E0E81D97FF57004D4529 /* VideoPlayer.h */,
+				7554E0E91D97FF57004D4529 /* VideoPlayer.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
